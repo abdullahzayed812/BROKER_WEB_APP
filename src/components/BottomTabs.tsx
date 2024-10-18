@@ -18,11 +18,13 @@ export default function BottomTabs() {
           <Text className="text-xs mt-1 text-gray-500">Favorites</Text>
         </TouchableOpacity>
       </Link>
-      <TouchableOpacity className="items-center">
-        <View className="bg-yellow-400 w-14 h-14 rounded-full flex items-center justify-center -mt-5">
-          <Text className="text-white text-3xl">+</Text>
-        </View>
-      </TouchableOpacity>
+      <Link href="/add-request">
+        <TouchableOpacity className="items-center">
+          <View className="bg-yellow-400 w-14 h-14 rounded-full flex items-center justify-center -mt-5">
+            <Text className="text-white text-3xl">+</Text>
+          </View>
+        </TouchableOpacity>
+      </Link>
       <Link href="/my-ads" asChild>
         <TouchableOpacity className="items-center">
           <Ionicons name="document-text-outline" size={24} color="gray" />

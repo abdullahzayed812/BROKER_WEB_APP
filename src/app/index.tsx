@@ -1,90 +1,27 @@
-import React from "react";
-import { View, ScrollView, TouchableOpacity, Text } from "react-native";
-import { StatusBar } from "expo-status-bar";
-import { Ionicons } from "@expo/vector-icons";
+import React, { useState } from "react";
+import { View, Text, ScrollView, Platform } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../components/Header";
-import FilterSection from "../components/FilterSection";
-import PropertyItem from "../components/PropertyItem";
-import SaveButton from "@/components/SaveButton";
-import { useIsMobile } from "@/hooks/useIsMobile";
 
-const propertyData = [
-  {
-    type: "Request",
-    action: "Buy",
-    tag: "Primary",
-    time: "1h",
-    stars: 5,
-    shares: 3,
-    property: "Apartment, Duplex",
-    location: "Zamalek, Cairo +2",
-    price: "15M EGP",
-    paymentType: "Installments",
-  },
-  {
-    type: "Request",
-    action: "Rent",
-    tag: "Long stays",
-    time: "4h",
-    stars: 3,
-    shares: 1,
-    property: "Apartment",
-    location: "New Cairo, Cairo +2",
-    price: "30K EGP",
-    paymentType: "Monthly",
-  },
-  {
-    type: "Request",
-    action: "Buy",
-    tag: "Resale",
-    time: "1d",
-    stars: 4,
-    shares: 3,
-    property: "Apartment, Duplex",
-    location: "Zamalek, Cairo +2",
-    price: "15M EGP",
-    paymentType: "Cash",
-  },
-  {
-    type: "Request",
-    action: "Rent",
-    tag: "Short stays",
-    time: "3d",
-    stars: 1,
-    shares: 1,
-    property: "Studio",
-    location: "Sheikh Zayed, Giza +2",
-    price: "3K EGP",
-    paymentType: "Daily",
-  },
-  {
-    type: "Request",
-    action: "Rent",
-    tag: "Short stays",
-    time: "3d",
-    stars: 1,
-    shares: 1,
-    property: "Studio",
-    location: "Sheikh Zayed, Giza +2",
-    price: "3K EGP",
-    paymentType: "Daily",
-  },
-];
+import FilterTabs from "@/components/FilterTabs";
+import PropertyList from "@/components/PropertyList";
+import SearchBar from "@/components/SearchBar";
 
-export default function Home() {
-  const isMobile = useIsMobile();
+export default function MarketplacePage() {
+  const [activeTab, setActiveTab] = useState("Inventory");
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <View className="flex-1 bg-gray-100">
-      <StatusBar style="dark" />
+    <SafeAreaView className="flex-1 bg-gray-100">
       <Header />
-      <FilterSection />
-      <ScrollView horizontal={isMobile}>
-        {propertyData.map((item, index) => (
-          <PropertyItem key={index} item={item} />
-        ))}
+      <ScrollView className="flex-1">
+        <View className="px-4 py-2">
+          <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
+          <FilterTabs activeTab={activeTab} onTabChange={setActiveTab} />
+          <PropertyList />
+        </View>
       </ScrollView>
-      <SaveButton />
-    </View>
+      {Platform.OS !== "web" && <View className="h-16" />}
+    </SafeAreaView>
   );
 }
