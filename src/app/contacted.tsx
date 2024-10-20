@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import PropertyCard from "@/components/web/PropertyCard";
+import PropertyCard from "@/components/shared/PropertyCard";
 import { generateList } from "@/utility";
-import { propertyItem } from "@/components/web/PropertyList";
+import { propertyItem } from "@/components/shared/PropertyList";
 
 const FilterDropdown = ({ label }) => (
   <Pressable className="bg-white rounded-lg px-4 py-2 flex-row items-center">

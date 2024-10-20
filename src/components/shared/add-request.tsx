@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, ScrollView, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  ScrollView,
+  Pressable,
+  Platform,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const ToggleButton = ({ options, selectedOption, onSelect }) => (
@@ -78,7 +85,7 @@ export default function AddRequestPage() {
   };
 
   const renderLeftSection = () => (
-    <View className="w-[40%] pl-4">
+    <View className="md:w-[40%] pl-4">
       <Text className="text-xl font-semibold mb-4">Select Ad Type</Text>
       <ToggleButton
         options={["Request", "Inventory"]}
@@ -138,7 +145,7 @@ export default function AddRequestPage() {
   );
 
   const renderRightSection = () => (
-    <View className="w-[35%] pr-4">
+    <View className="md:w-[35%] pr-4">
       <View className="bg-white rounded-lg p-4 mb-6">
         <Text className="font-semibold mb-4">Details</Text>
         <DetailField
@@ -217,7 +224,11 @@ export default function AddRequestPage() {
 
   return (
     <ScrollView>
-      <View className="flex-row justify-between">
+      <View
+        className={`${
+          Platform.OS === "web" ? "flex-row" : "flex-col"
+        } justify-between`}
+      >
         {renderLeftSection()}
         {renderRightSection()}
       </View>

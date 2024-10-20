@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import PropertyList from "@/components/web/PropertyList";
+import React from "react";
+import PropertyList from "@/components/shared/PropertyList";
 import RequestsSummary from "@/components/shared/RequestSummary";
-import SearchBar from "@/components/web/SearchBar";
-import CategoryFilters from "@/components/web/CategoryFilters";
-import { View } from "react-native";
+import SearchBar from "@/components/shared/SearchBar";
+import CategoryFilters from "@/components/shared/CategoryFilters";
 
 export default function MarketplaceScreen() {
   return (

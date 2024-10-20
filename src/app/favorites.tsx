@@ -1,5 +1,5 @@
 import React from "react";
-import PropertyList from "@/components/web/PropertyList";
+import PropertyList from "@/components/shared/PropertyList";
 import RequestsSummary from "@/components/shared/RequestSummary";
 
 const FavoritesScreen: React.FC = () => {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SavedSearchesModal } from "../modals/SavedSearches";
 
@@ -17,20 +17,32 @@ const RequestsSummary: React.FC<RequestsSummaryProps> = ({
   return (
     <>
       <View className="flex-row justify-between items-center mb-8">
-        <Text className="text-lg font-semibold">2,457 Requests</Text>
+        <Text className="md:text-lg text-[12px] md:font-semibold">
+          2,457 Requests
+        </Text>
 
-        <View className="flex-row items-center space-x-2 ">
+        <View className="flex-row items-center" style={{ gap: 8 }}>
           <Pressable
-            className="flex-row items-center px-4 py-2 border border-gray-300 bg-white rounded-lg"
+            className="flex-row items-center md:px-4 md:py-2 md:border md:border-gray-300 md:bg-white rounded-lg"
             onPress={() => setShowSavedSearchesModal(true)}
           >
-            <Text className="mr-2">Saved Searches 3</Text>
-            <Ionicons name="star-outline" size={20} color="#000" />
+            <Text className="md:text-md text-sm mr-1">Saved Searches 3</Text>
+            <Ionicons
+              name="star-outline"
+              size={Platform.OS === "web" ? 20 : 10}
+              color="#000"
+            />
           </Pressable>
-          <View className="flex-row justify-between items-center px-4 py-2 border border-gray-300 bg-white rounded-lg">
-            <Text className="text-gray-600">Sort by - {sortBy}</Text>
-            <Ionicons name="chevron-down" size={20} color="#000" />
-          </View>
+          <Pressable className="flex-row justify-between items-center md:px-4 md:py-2 md:border md:border-gray-300 md:bg-white rounded-lg">
+            <Text className="md-text-md text-sm mr-1 text-gray-600">
+              Sort by - {sortBy}
+            </Text>
+            <Ionicons
+              name="chevron-down"
+              size={Platform.OS === "web" ? 20 : 10}
+              color="#000"
+            />
+          </Pressable>
         </View>
       </View>
 

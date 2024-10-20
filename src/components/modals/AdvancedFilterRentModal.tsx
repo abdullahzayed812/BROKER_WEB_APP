@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { ModalContainer } from "../shared/ModalContainer";
 import { ToggleButton } from "../shared/ToggleButton";
 import { RadioButton } from "../shared/RadioButton";
-import { FilterSection } from "../web/FilterSection";
+import { FilterSection } from "../shared/FilterSection";
 import { Button } from "../shared/Button";
 import { TagButton } from "../shared/TagButton";
 

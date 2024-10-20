@@ -1,11 +1,12 @@
 import { Platform, ScrollView, Text, View } from "react-native";
 import "../global.css";
-import { Slot, useLocalSearchParams } from "expo-router";
-import BottomTabs from "@/components/BottomTabs";
+import { Slot, useGlobalSearchParams, useLocalSearchParams } from "expo-router";
+import BottomTabs from "@/components/shared/BottomTabs";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Header from "@/components/web/Header";
+import Header from "@/components/shared/Header";
 import { useState } from "react";
-import Pagination from "@/components/web/Pagination";
+import Pagination from "@/components/shared/Pagination";
+import { HeaderMobile } from "@/components/shared/HeaderMobile";
 
 export default function Layout() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,9 +15,9 @@ export default function Layout() {
     <>
       <SafeAreaView className="flex-1 bg-gray-100">
         <Header />
+        <HeaderMobile />
         <ScrollView showsVerticalScrollIndicator={false}>
-          <PageInfo />
-          <View className="w-[95%] p-8 bg-blue-50 self-center">
+          <View className="md:w-[95%] p-4 bg-blue-50 md:self-center">
             <Slot />
 
             <Pagination

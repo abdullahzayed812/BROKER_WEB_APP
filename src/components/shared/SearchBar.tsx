@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { View, TextInput, Pressable, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import TabSelector from "../shared/TabSelector";
+import TabSelector from "./TabSelector";
 
 export default function SearchBar() {
   const [activeTab, setActiveTab] = useState("Requests");
 
   return (
-    <View>
+    <View className="md:flex hidden">
       <View className="flex-1 flex-row mb-8">
         <TabSelector activeTab={activeTab} setActiveTab={setActiveTab} />
 

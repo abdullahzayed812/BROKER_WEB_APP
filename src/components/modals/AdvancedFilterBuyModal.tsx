@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { ModalContainer } from "@/components/shared/ModalContainer";
 import { ToggleButton } from "@/components/shared/ToggleButton";
 import { RadioButton } from "@/components/shared/RadioButton";
-import { FilterSection } from "@/components/web/FilterSection";
+import { FilterSection } from "@/components/shared/FilterSection";
 import { Button } from "@/components/shared/Button";
 
 interface AdvancedFilterBuyModalProps {

@@ -25,14 +25,16 @@ export const ModalContainer: React.FC<ModalContainerProps> = ({
   const modalRef = useRef<View>(null);
 
   const handleOutsideClick = (event: GestureResponderEvent) => {
+    event.persist();
+
     if (modalRef.current) {
       modalRef.current.measure((fx, fy, width, height, px, py) => {
         // Check if the touch point is outside the modal's bounds
         const isInside =
-          event.nativeEvent.pageX >= px &&
-          event.nativeEvent.pageX <= px + width &&
-          event.nativeEvent.pageY >= py &&
-          event.nativeEvent.pageY <= py + height;
+          event.nativeEvent?.pageX >= px &&
+          event.nativeEvent?.pageX <= px + width &&
+          event.nativeEvent?.pageY >= py &&
+          event.nativeEvent?.pageY <= py + height;
 
         if (!isInside) {
           onClose();

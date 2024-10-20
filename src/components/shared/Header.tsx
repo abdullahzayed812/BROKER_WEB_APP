@@ -5,7 +5,7 @@ import { Link } from "expo-router";
 
 export default function Header() {
   return (
-    <View className="flex-row justify-between items-center py-8 px-16 bg-white border-b border-gray-200">
+    <View className="md:flex hidden flex-row justify-between items-center py-8 px-16 bg-white border-b border-gray-200">
       <View>
         <Text className="text-2xl font-bold text-blue-500 mr-2">SDS</Text>
         <Text className="text-sm text-gray-500">Side-by-Side</Text>

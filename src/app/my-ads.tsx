@@ -1,6 +1,6 @@
 import React from "react";
-import PropertyList from "@/components/web/PropertyList";
-import SearchBar from "@/components/web/SearchBar";
+import PropertyList from "@/components/shared/PropertyList";
+import SearchBar from "@/components/shared/SearchBar";
 
 const MyAdsScreen: React.FC = () => {
   return (

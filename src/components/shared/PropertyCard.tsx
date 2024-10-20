@@ -81,11 +81,11 @@ export default function PropertyCard({
           {property.location} <Text className="text-blue-500">+2 more</Text>
         </Text>
       </View>
-      <View className="flex-row items-center mt-1">
+      <View className="md:flex hidden flex-row items-center mt-1">
         <Ionicons name="calendar-outline" size={16} color="#6B7280" />
         <Text className="text-sm text-gray-600 ml-2">{property.date}</Text>
       </View>
-      <View className="flex-row items-center mt-1">
+      <View className="md:flex hidden flex-row items-center mt-1">
         <Ionicons name="git-compare-outline" size={16} color="#6B7280" />
         <Text className="text-sm text-gray-600 ml-2">
           {isEditable ? "Side-by-side deal" : "50:50% deal"}
@@ -101,7 +101,7 @@ export default function PropertyCard({
   );
 
   const renderPrice = () => (
-    <Text className="text-lg font-bold text-blue-600 mt-2">
+    <Text className="md:flex hidden text-lg font-bold text-blue-600 mt-2">
       BOT {property.price}
       {isEditable && (
         <Text className="text-sm font-normal text-gray-500"> Monthly</Text>
@@ -110,7 +110,7 @@ export default function PropertyCard({
   );
 
   const renderMatchedProperties = () => (
-    <View className="flex-row items-center bg-blue-50 rounded-lg p-2 mt-2">
+    <View className="md:flex hidden flex-row items-center bg-blue-50 rounded-lg p-2 mt-2">
       <Text className="text-sm text-blue-600 mr-2">
         {property.matchedProperties} Matched properties
       </Text>
@@ -132,7 +132,7 @@ export default function PropertyCard({
   );
 
   const renderActionButtons = () => (
-    <View className="flex-row justify-between mt-4">
+    <View className="md:flex hidden flex-row justify-between mt-4">
       <Pressable className="bg-blue-100 py-2 px-4 rounded-full flex-1 mr-2">
         <Text className="text-blue-600 text-center font-semibold">Details</Text>
       </Pressable>

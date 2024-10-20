@@ -1,18 +1,23 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 
 export default function BottomTabs() {
   return (
     <View className="flex-row justify-around items-center bg-white border-t border-green-600 py-2">
-      <Link href="/" asChild>
-        <TouchableOpacity className="items-center">
-          <Ionicons name="search" size={24} color="#007AFF" />
-          <Text className="text-xs mt-1 text-blue-500">Find</Text>
-        </TouchableOpacity>
-      </Link>
-      <Link href="/favorites" asChild>
+      <TouchableOpacity
+        className="items-center"
+        onPress={() => router.navigate("/")}
+      >
+        <Ionicons name="search" size={24} color="#007AFF" />
+        <Text className="text-xs mt-1 text-blue-500">Find</Text>
+      </TouchableOpacity>
+
+      <Link
+        href={{ pathname: "/favorites", params: { screenName: "Favorites" } }}
+        asChild
+      >
         <TouchableOpacity className="items-center">
           <Ionicons name="star-outline" size={24} color="gray" />
           <Text className="text-xs mt-1 text-gray-500">Favorites</Text>
