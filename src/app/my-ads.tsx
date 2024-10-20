@@ -1,18 +1,13 @@
 import React from "react";
-import PropertyListScreen from "../components/PropertyListScreen";
+import PropertyList from "@/components/web/PropertyList";
+import SearchBar from "@/components/web/SearchBar";
 
 const MyAdsScreen: React.FC = () => {
-  const myProperties = [
-    // Add your properties data here
-  ];
-
   return (
-    <PropertyListScreen
-      title="My Requests"
-      subtitle="45 Requests"
-      properties={myProperties}
-      showEditControls={true}
-    />
+    <>
+      <SearchBar />
+      <PropertyList isEditableCard />
+    </>
   );
 };
 
