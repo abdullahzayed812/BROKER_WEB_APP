@@ -4,7 +4,6 @@ import {
   Modal,
   Pressable,
   TouchableWithoutFeedback,
-  Dimensions,
   GestureResponderEvent,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -43,19 +42,13 @@ export const ModalContainer: React.FC<ModalContainerProps> = ({
     }
   };
 
-  const modalWidth =
-    typeof width === "number"
-      ? width
-      : Dimensions.get("window").width * (parseInt(width) / 100);
-
   return (
     <Modal visible={isVisible} animationType="slide" transparent>
       <TouchableWithoutFeedback onPress={handleOutsideClick}>
         <View className="flex-1 justify-center items-center bg-black bg-opacity-50">
           <View
             ref={modalRef}
-            style={{ width: modalWidth }}
-            className="bg-white rounded-3xl p-6 max-h-[90%]"
+            className="bg-white rounded-3xl md:p-6 p-2 max-h-[90%] md:w-[90%] w-full"
           >
             <Pressable onPress={onClose} className="absolute right-6 top-6">
               <Ionicons name="close" size={24} color="black" />

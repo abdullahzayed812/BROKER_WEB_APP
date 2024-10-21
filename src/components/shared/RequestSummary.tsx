@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, Pressable, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SavedSearchesModal } from "../modals/SavedSearches";
+import { SortingModal } from "../modals/Sorting";
 
 interface RequestsSummaryProps {
   sortBy: string;
@@ -13,6 +14,7 @@ const RequestsSummary: React.FC<RequestsSummaryProps> = ({
   setSortBy,
 }) => {
   const [showSavedSearchesModal, setShowSavedSearchesModal] = useState(false);
+  const [showSortingModal, setShowSortingModal] = useState(false);
 
   return (
     <>
@@ -33,7 +35,10 @@ const RequestsSummary: React.FC<RequestsSummaryProps> = ({
               color="#000"
             />
           </Pressable>
-          <Pressable className="flex-row justify-between items-center md:px-4 md:py-2 md:border md:border-gray-300 md:bg-white rounded-lg">
+          <Pressable
+            className="flex-row justify-between items-center md:px-4 md:py-2 md:border md:border-gray-300 md:bg-white rounded-lg"
+            onPress={() => setShowSortingModal(true)}
+          >
             <Text className="md-text-md text-sm mr-1 text-gray-600">
               Sort by - {sortBy}
             </Text>
@@ -50,6 +55,14 @@ const RequestsSummary: React.FC<RequestsSummaryProps> = ({
         <SavedSearchesModal
           isVisible={showSavedSearchesModal}
           onClose={() => setShowSavedSearchesModal(false)}
+        />
+      ) : null}
+
+      {showSortingModal ? (
+        <SortingModal
+          isVisible={showSortingModal}
+          onClose={() => setShowSortingModal(false)}
+          onSort={() => {}}
         />
       ) : null}
     </>

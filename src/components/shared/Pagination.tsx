@@ -14,7 +14,7 @@ export default function Pagination({
   totalPages,
 }: PaginationProps) {
   return (
-    <View className="flex-row justify-center items-center p-4 my-8">
+    <View className="md:flex hidden flex-row justify-center items-center p-4 my-8">
       <Pressable
         onPress={() => setCurrentPage(Math.max(1, currentPage - 1))}
         className="mr-2"

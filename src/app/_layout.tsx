@@ -1,6 +1,11 @@
 import { Platform, ScrollView, Text, View } from "react-native";
 import "../global.css";
-import { Slot, useGlobalSearchParams, useLocalSearchParams } from "expo-router";
+import {
+  Slot,
+  useGlobalSearchParams,
+  useLocalSearchParams,
+  usePathname,
+} from "expo-router";
 import BottomTabs from "@/components/shared/BottomTabs";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/shared/Header";
@@ -11,11 +16,19 @@ import { HeaderMobile } from "@/components/shared/HeaderMobile";
 export default function Layout() {
   const [currentPage, setCurrentPage] = useState(1);
 
+  const pathname = usePathname();
+
+  const showHeader = pathname === "/";
+
+  const showFavoritesTabs = pathname === "/favorites";
+
   return (
     <>
       <SafeAreaView className="flex-1 bg-gray-100">
         <Header />
-        <HeaderMobile />
+
+        {showHeader ? <HeaderMobile /> : null}
+
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className="md:w-[95%] p-4 bg-blue-50 md:self-center">
             <Slot />
@@ -27,8 +40,9 @@ export default function Layout() {
             />
           </View>
         </ScrollView>
+
+        <BottomTabs />
       </SafeAreaView>
-      {Platform.OS !== "web" ? <BottomTabs /> : null}
     </>
   );
 }

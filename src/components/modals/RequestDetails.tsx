@@ -70,28 +70,44 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
           <Text className="font-semibold text-lg">
             {requestDetails.agent.name} @ {requestDetails.agent.company}
           </Text>
-          <View className="flex-row items-center">
-            <Ionicons name="star" size={16} color="#FFD700" />
-            <Text className="ml-1 font-semibold">
-              {requestDetails.agent.rating}
-            </Text>
+          <View className="flex-row items-center justify-between">
+            <View className="flex-row items-center">
+              <Ionicons name="star" size={16} color="#FFD700" />
+              <Text className="ml-1 font-semibold">
+                {requestDetails.agent.rating}
+              </Text>
+            </View>
+
+            <View className="flex-row items-center">
+              <Text className="text-gray-500 mr-2">1d</Text>
+              <View className="flex-row items-center">
+                <Pressable
+                  className="mr-2"
+                  onPress={() => setShowRateModal(true)}
+                >
+                  <Ionicons name="star-outline" size={24} color="#6B7280" />
+                </Pressable>
+                <Pressable
+                  className="mr-2"
+                  onPress={() => setShowReportBrokerModal(true)}
+                >
+                  <Ionicons
+                    name="chatbubble-outline"
+                    size={24}
+                    color="#6B7280"
+                  />
+                </Pressable>
+                <Pressable>
+                  <Ionicons
+                    name="share-social-outline"
+                    size={24}
+                    color="#6B7280"
+                  />
+                </Pressable>
+              </View>
+            </View>
           </View>
         </View>
-      </View>
-      <View className="flex-row items-center">
-        <Text className="text-gray-500 mr-2">1d</Text>
-        <Pressable className="mr-2" onPress={() => setShowRateModal(true)}>
-          <Ionicons name="star-outline" size={24} color="#6B7280" />
-        </Pressable>
-        <Pressable
-          className="mr-2"
-          onPress={() => setShowReportBrokerModal(true)}
-        >
-          <Ionicons name="chatbubble-outline" size={24} color="#6B7280" />
-        </Pressable>
-        <Pressable>
-          <Ionicons name="share-social-outline" size={24} color="#6B7280" />
-        </Pressable>
       </View>
     </View>
   );
