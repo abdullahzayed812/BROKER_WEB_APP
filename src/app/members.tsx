@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Pressable, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { generateList } from "@/utility";
 
@@ -55,45 +62,47 @@ const TableHeader = () => (
 );
 
 const TableRow = ({ member, onEdit, onDelete }) => (
-  <View className="flex-row py-4 border-b border-gray-200">
-    <View className="w-8">
-      <Pressable className="w-5 h-5 border border-gray-300 rounded">
-        {/* Checkbox logic here */}
-      </Pressable>
-    </View>
-    <View className="flex-1">
-      <Text>{member.name}</Text>
-    </View>
-    <View className="flex-1">
-      <Pressable className="flex-row items-center">
-        <Text>{member.role}</Text>
-        <Ionicons
-          name="chevron-down"
-          size={16}
-          color="#9CA3AF"
-          className="ml-1"
+  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+    <View className="self-stretch items-center flex-row py-4 border-b border-gray-200">
+      <View className="w-8">
+        <Pressable className="w-5 h-5 border border-gray-300 rounded">
+          {/* Checkbox logic here */}
+        </Pressable>
+      </View>
+      <View className="flex-1">
+        <Text>{member.name}</Text>
+      </View>
+      <View className="flex-1">
+        <Pressable className="flex-row items-center">
+          <Text>{member.role}</Text>
+          <Ionicons
+            name="chevron-down"
+            size={16}
+            color="#9CA3AF"
+            className="ml-1"
+          />
+        </Pressable>
+      </View>
+      <View className="flex-1">
+        <Text>{member.email}</Text>
+      </View>
+      <View className="flex-1">
+        <Text>{member.phone}</Text>
+      </View>
+      <View className="w-20 flex-row">
+        <ActionButton
+          icon="pencil"
+          color="#3B82F6"
+          onPress={() => onEdit(member)}
         />
-      </Pressable>
+        <ActionButton
+          icon="trash"
+          color="#EF4444"
+          onPress={() => onDelete(member)}
+        />
+      </View>
     </View>
-    <View className="flex-1">
-      <Text>{member.email}</Text>
-    </View>
-    <View className="flex-1">
-      <Text>{member.phone}</Text>
-    </View>
-    <View className="w-20 flex-row">
-      <ActionButton
-        icon="pencil"
-        color="#3B82F6"
-        onPress={() => onEdit(member)}
-      />
-      <ActionButton
-        icon="trash"
-        color="#EF4444"
-        onPress={() => onDelete(member)}
-      />
-    </View>
-  </View>
+  </ScrollView>
 );
 
 const memberItem = {
@@ -106,6 +115,8 @@ const memberItem = {
 
 // Main component
 export default function MembersPage() {
+  const [searchQuery, setSearchQuery] = useState("");
+
   const handleSearch = (text) => {
     // Implement search logic
   };
@@ -118,9 +129,11 @@ export default function MembersPage() {
     // Implement delete logic
   };
 
+  const onMenuPress = () => {};
+
   return (
     <View className="">
-      <View className="flex-row items-center space-x-4 mb-6">
+      <View className="md:flex hidden flex-row items-center space-x-4 mb-6">
         <SearchBar placeholder="Search Members" onSearch={handleSearch} />
         <FilterDropdown label="Filter" />
         <FilterDropdown label="Filter" />
@@ -131,8 +144,26 @@ export default function MembersPage() {
         <ActionButton icon="search" color="#3B82F6" onPress={() => {}} />
       </View>
 
+      <View className="flex md:hidden flex-row items-center mb-4">
+        <View className="flex-1 flex-row items-center bg-gray-100 rounded-lg mr-2 px-3 py-2">
+          <Ionicons name="search-outline" size={20} color="#9CA3AF" />
+          <TextInput
+            className="flex-1 ml-2 text-base"
+            placeholder="Search Members"
+            value={searchQuery}
+            onChangeText={handleSearch}
+          />
+        </View>
+        <TouchableOpacity
+          className="bg-blue-500 rounded-lg p-2"
+          onPress={onMenuPress}
+        >
+          <Ionicons name="menu" size={24} color="white" />
+        </TouchableOpacity>
+      </View>
+
       <View className="flex-row items-center justify-between mb-4">
-        <Text className="text-lg font-semibold">{10} Members</Text>
+        <Text className="md:text-lg text-sm font-semibold">{10} Members</Text>
         <View className="flex-row items-center space-x-2">
           <ActionButton icon="download-outline" onPress={() => {}} />
           <ActionButton icon="cloud-upload-outline" onPress={() => {}} />

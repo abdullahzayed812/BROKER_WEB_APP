@@ -45,7 +45,7 @@ export const ModalContainer: React.FC<ModalContainerProps> = ({
   return (
     <Modal visible={isVisible} animationType="slide" transparent>
       <TouchableWithoutFeedback onPress={handleOutsideClick}>
-        <View className="flex-1 justify-center items-center bg-black bg-opacity-50">
+        <View className="flex-1 md:justify-center md:items-center justify-end bg-black bg-opacity-50">
           <View
             ref={modalRef}
             className="bg-white rounded-3xl md:p-6 p-2 max-h-[90%] md:w-[90%] w-full"

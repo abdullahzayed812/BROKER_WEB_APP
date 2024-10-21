@@ -6,12 +6,12 @@ import { TagButton } from "../shared/TagButton";
 import { RadioButton } from "../shared/RadioButton";
 import { Button } from "../shared/Button";
 
-interface LocationsFilterModalProps {
+interface FilterLocationModalProps {
   isVisible: boolean;
   onClose: () => void;
 }
 
-export const LocationsFilterModal: React.FC<LocationsFilterModalProps> = ({
+export const FilterLocationModal: React.FC<FilterLocationModalProps> = ({
   isVisible,
   onClose,
 }) => {

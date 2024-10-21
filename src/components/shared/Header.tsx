@@ -12,53 +12,32 @@ export default function Header() {
       </View>
 
       <View className="flex-row items-center">
-        <Link
-          href={{ pathname: "/", params: { screenName: "Marketplace" } }}
-          asChild
-        >
+        <Link href="/" asChild>
           <Pressable className="mr-4">
             <Text className="">Find</Text>
           </Pressable>
         </Link>
-        <Link
-          href={{ pathname: "/favorites", params: { screenName: "Favorite" } }}
-          asChild
-        >
+        <Link href="/favorites" asChild>
           <Pressable className="mr-4">
             <Text className="">Favorites</Text>
           </Pressable>
         </Link>
-        <Link
-          href={{ pathname: "/my-ads", params: { screenName: "My Ads" } }}
-          asChild
-        >
+        <Link href="/my-ads" asChild>
           <Pressable className="mr-4">
             <Text className="">My Ads</Text>
           </Pressable>
         </Link>
-        <Link
-          href={{ pathname: "/members", params: { screenName: "Members" } }}
-          asChild
-        >
+        <Link href="/members" asChild>
           <Pressable className="mr-4">
             <Text className="">Members</Text>
           </Pressable>
         </Link>
-        <Link
-          href={{ pathname: "/contacted", params: { screenName: "Contact" } }}
-          asChild
-        >
+        <Link href="/contacts" asChild>
           <Pressable className="mr-4">
             <Text className="">Contacts</Text>
           </Pressable>
         </Link>
-        <Link
-          href={{
-            pathname: "/add-request",
-            params: { screenName: "Add Request" },
-          }}
-          asChild
-        >
+        <Link href="/add-request" asChild>
           <Pressable className="bg-blue-500 px-6 py-4 rounded-lg">
             <Text className="text-white">Create Ad</Text>
           </Pressable>

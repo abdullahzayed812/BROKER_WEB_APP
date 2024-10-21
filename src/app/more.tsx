@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { Link } from "expo-router";
 
 const MoreScreen: React.FC = () => {
   return (
@@ -43,14 +44,18 @@ const MoreScreen: React.FC = () => {
       </View>
       <View className="bg-white p-4 mb-4">
         <Text className="font-bold text-lg mb-4">Dashboard</Text>
-        <TouchableOpacity className="flex-row items-center justify-between py-2 border-b border-gray-200">
-          <Text>Members</Text>
-          <Ionicons name="chevron-forward" size={20} color="gray" />
-        </TouchableOpacity>
-        <TouchableOpacity className="flex-row items-center justify-between py-2 border-b border-gray-200">
-          <Text>Contacted</Text>
-          <Ionicons name="chevron-forward" size={20} color="gray" />
-        </TouchableOpacity>
+        <Link href="members" asChild>
+          <TouchableOpacity className="flex-row items-center justify-between py-2 border-b border-gray-200">
+            <Text>Members</Text>
+            <Ionicons name="chevron-forward" size={20} color="gray" />
+          </TouchableOpacity>
+        </Link>
+        <Link href="/contacts" asChild>
+          <TouchableOpacity className="flex-row items-center justify-between py-2 border-b border-gray-200">
+            <Text>Contacted</Text>
+            <Ionicons name="chevron-forward" size={20} color="gray" />
+          </TouchableOpacity>
+        </Link>
         <TouchableOpacity className="flex-row items-center justify-between py-2">
           <Text>Settings</Text>
           <Ionicons name="chevron-forward" size={20} color="gray" />

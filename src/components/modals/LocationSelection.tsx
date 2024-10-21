@@ -1,178 +1,186 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, ScrollView, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+  FlatList,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { ModalContainer } from "../shared/ModalContainer";
-
-interface Location {
-  id: string;
-  name: string;
-}
+import { ModalContainer } from "../shared/ModalContainer"; // Assuming this is the path to your ModalContainer component
 
 interface LocationSelectionModalProps {
   isVisible: boolean;
   onClose: () => void;
-  onSelectLocation: (location: Location) => void;
+  onSelectLocations: (locations: string[]) => void;
 }
 
-const tabs = ["City", "District", "Neighborhood/Compound"];
+type TabType = "City" | "District" | "Neighborhood/Compound";
 
 export default function LocationSelectionModal({
   isVisible,
   onClose,
-  onSelectLocation,
+  onSelectLocations,
 }: LocationSelectionModalProps) {
-  const [activeTab, setActiveTab] = useState("City");
+  const [activeTab, setActiveTab] = useState<TabType>("City");
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedLocations, setSelectedLocations] = useState<Location[]>([]);
-  const [neighborhoodMode, setNeighborhoodMode] = useState<
-    "Neighborhood" | "Compound"
-  >("Neighborhood");
-
-  // Mock data - replace with actual data fetching logic
-  const locations: Location[] = [
-    { id: "1", name: "Cairo" },
-    { id: "2", name: "Luxor" },
-    { id: "3", name: "Giza" },
-    { id: "4", name: "Mansoura" },
-    { id: "5", name: "Aswan" },
-  ];
-
-  const filteredLocations = locations.filter((location) =>
-    location.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const [selectedLocations, setSelectedLocations] = useState<string[]>([
+    "Cairo, Zamalek",
+    "Cairo, Zamalek",
+    "Cairo, Zamalek",
+  ]);
+  const [selectedType, setSelectedType] = useState<"Neighborhood" | "Compound">(
+    "Compound"
   );
 
-  const handleSelectLocation = (location: Location) => {
-    if (!selectedLocations.some((loc) => loc.id === location.id)) {
+  const tabs: TabType[] = ["City", "District", "Neighborhood/Compound"];
+
+  const dummyData = {
+    City: ["Cairo", "Luxor", "Giza", "Mansoura", "Aswan"],
+    District: [
+      "District 1",
+      "District 2",
+      "District 3",
+      "District 4",
+      "District 5",
+    ],
+    "Neighborhood/Compound": [
+      "Neighborhood 1",
+      "Neighborhood 2",
+      "Neighborhood 3",
+      "Neighborhood 4",
+      "Neighborhood 5",
+    ],
+  };
+
+  const filteredData = dummyData[activeTab].filter((item) =>
+    item.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const toggleLocation = (location: string) => {
+    if (selectedLocations.includes(location)) {
+      setSelectedLocations(selectedLocations.filter((loc) => loc !== location));
+    } else {
       setSelectedLocations([...selectedLocations, location]);
     }
-    onSelectLocation(location);
   };
 
-  const handleRemoveLocation = (locationId: string) => {
-    setSelectedLocations(
-      selectedLocations.filter((loc) => loc.id !== locationId)
-    );
-  };
-
-  const renderTabs = () => (
-    <View className="flex-row mb-4">
-      {tabs.map((tab) => (
-        <Pressable
-          key={tab}
-          onPress={() => setActiveTab(tab)}
-          className={`flex-1 py-2 ${
-            activeTab === tab ? "border-b-2 border-blue-500" : ""
-          }`}
-        >
-          <Text
-            className={`text-center ${
-              activeTab === tab ? "text-blue-500" : "text-gray-500"
-            }`}
-          >
-            {tab}
-          </Text>
-        </Pressable>
-      ))}
-    </View>
-  );
-
-  const renderSearchBar = () => (
-    <View className="bg-gray-100 rounded-lg flex-row items-center px-3 py-2 mb-4">
-      <Ionicons name="search" size={20} color="#9CA3AF" />
-      <TextInput
-        className="flex-1 ml-2"
-        placeholder={`Search ${activeTab.toLowerCase()}`}
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-      />
-    </View>
-  );
-
-  const renderSelectedLocations = () => (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      className="mb-4"
+  const renderItem = ({ item }: { item: string }) => (
+    <TouchableOpacity
+      className="flex-row items-center py-3"
+      onPress={() => toggleLocation(item)}
     >
-      {selectedLocations.map((location) => (
-        <Pressable
-          key={location.id}
-          onPress={() => handleRemoveLocation(location.id)}
-          className="bg-blue-100 rounded-full flex-row items-center px-3 py-1 mr-2"
-        >
-          <Text className="text-blue-500 mr-1">{location.name}</Text>
-          <Ionicons name="close" size={16} color="#3B82F6" />
-        </Pressable>
-      ))}
-    </ScrollView>
-  );
-
-  const renderLocationList = () => (
-    <ScrollView>
-      {filteredLocations.map((location) => (
-        <Pressable
-          key={location.id}
-          onPress={() => handleSelectLocation(location)}
-          className="flex-row items-center justify-between py-3 border-b border-gray-200"
-        >
-          <Text>{location.name}</Text>
-          <View className="w-6 h-6 rounded-full border-2 border-blue-500 items-center justify-center">
-            {selectedLocations.some((loc) => loc.id === location.id) && (
-              <View className="w-4 h-4 rounded-full bg-blue-500" />
-            )}
-          </View>
-        </Pressable>
-      ))}
-    </ScrollView>
-  );
-
-  const renderNeighborhoodToggle = () => (
-    <View className="flex-row mb-4">
-      <Pressable
-        onPress={() => setNeighborhoodMode("Neighborhood")}
-        className={`flex-1 py-2 px-4 rounded-full ${
-          neighborhoodMode === "Neighborhood" ? "bg-blue-500" : "bg-gray-200"
-        }`}
-      >
-        <Text
-          className={`text-center ${
-            neighborhoodMode === "Neighborhood" ? "text-white" : "text-gray-700"
-          }`}
-        >
-          Neighborhood
-        </Text>
-      </Pressable>
-      <Pressable
-        onPress={() => setNeighborhoodMode("Compound")}
-        className={`flex-1 py-2 px-4 rounded-full ${
-          neighborhoodMode === "Compound" ? "bg-blue-500" : "bg-gray-200"
-        }`}
-      >
-        <Text
-          className={`text-center ${
-            neighborhoodMode === "Compound" ? "text-white" : "text-gray-700"
-          }`}
-        >
-          Compound
-        </Text>
-      </Pressable>
-    </View>
+      <View
+        className={`w-5 h-5 rounded-full border-2 ${
+          selectedLocations.includes(item)
+            ? "bg-blue-500 border-blue-500"
+            : "border-gray-300"
+        } mr-3`}
+      />
+      <Text className="text-gray-800 text-base">{item}</Text>
+    </TouchableOpacity>
   );
 
   return (
     <ModalContainer isVisible={isVisible} onClose={onClose}>
-      <View className="bg-white rounded-lg p-4">
-        <View className="flex-row justify-between items-center mb-4">
+      <View className="bg-white rounded-t-3xl max-h-[90%]">
+        <View className="flex-row justify-between items-center p-4 border-b border-gray-200">
           <Text className="text-xl font-semibold">Locations</Text>
-          <Pressable onPress={onClose}>
-            <Ionicons name="close" size={24} color="#6B7280" />
-          </Pressable>
+          <TouchableOpacity onPress={onClose}>
+            <Ionicons name="close" size={24} color="black" />
+          </TouchableOpacity>
         </View>
-        {renderTabs()}
-        {activeTab === "Neighborhood/Compound" && renderNeighborhoodToggle()}
-        {renderSearchBar()}
-        {selectedLocations.length > 0 && renderSelectedLocations()}
-        {renderLocationList()}
+
+        <View className="flex-row border-b border-gray-200">
+          {tabs.map((tab) => (
+            <TouchableOpacity
+              key={tab}
+              className={`flex-1 py-3 ${
+                activeTab === tab ? "border-b-2 border-blue-500" : ""
+              }`}
+              onPress={() => setActiveTab(tab)}
+            >
+              <Text
+                className={`text-center ${
+                  activeTab === tab
+                    ? "text-blue-500 font-semibold"
+                    : "text-gray-500"
+                }`}
+              >
+                {tab}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {activeTab === "Neighborhood/Compound" && (
+          <View className="flex-row justify-around py-3">
+            <TouchableOpacity
+              className="flex-row items-center"
+              onPress={() => setSelectedType("Neighborhood")}
+            >
+              <View
+                className={`w-5 h-5 rounded-full border-2 ${
+                  selectedType === "Neighborhood"
+                    ? "bg-blue-500 border-blue-500"
+                    : "border-gray-300"
+                } mr-2`}
+              />
+              <Text>Neighborhood</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="flex-row items-center"
+              onPress={() => setSelectedType("Compound")}
+            >
+              <View
+                className={`w-5 h-5 rounded-full border-2 ${
+                  selectedType === "Compound"
+                    ? "bg-blue-500 border-blue-500"
+                    : "border-gray-300"
+                } mr-2`}
+              />
+              <Text>Compound</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+        <View className="p-4">
+          <View className="flex-row items-center bg-gray-100 rounded-lg px-3 py-2 mb-3">
+            <Ionicons name="search" size={20} color="gray" />
+            <TextInput
+              className="flex-1 ml-2"
+              placeholder={`Search ${activeTab}`}
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
+          </View>
+
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            className="mb-3"
+          >
+            {selectedLocations.map((location, index) => (
+              <View
+                key={index}
+                className="bg-blue-100 rounded-full px-3 py-1 mr-2 flex-row items-center"
+              >
+                <Text className="text-blue-500 mr-1">{location}</Text>
+                <TouchableOpacity onPress={() => toggleLocation(location)}>
+                  <Ionicons name="close-circle" size={18} color="#3B82F6" />
+                </TouchableOpacity>
+              </View>
+            ))}
+          </ScrollView>
+
+          <FlatList
+            data={filteredData}
+            renderItem={renderItem}
+            keyExtractor={(item) => item}
+            className="h-80"
+          />
+        </View>
       </View>
     </ModalContainer>
   );

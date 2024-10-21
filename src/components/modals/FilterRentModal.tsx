@@ -8,14 +8,15 @@ import { FilterSection } from "../shared/FilterSection";
 import { Button } from "../shared/Button";
 import { TagButton } from "../shared/TagButton";
 
-interface AdvancedFilterRentModalProps {
+interface FilterRentModalProps {
   isVisible: boolean;
   onClose: () => void;
 }
 
-export const AdvancedFilterRentModal: React.FC<
-  AdvancedFilterRentModalProps
-> = ({ isVisible, onClose }) => {
+export const FilterRentModal: React.FC<FilterRentModalProps> = ({
+  isVisible,
+  onClose,
+}) => {
   const [selectedType, setSelectedType] = useState("Rent");
   const [selectedStay, setSelectedStay] = useState("Long Stays");
   const [selectedPropertyTypes, setSelectedPropertyTypes] = useState<string[]>(
