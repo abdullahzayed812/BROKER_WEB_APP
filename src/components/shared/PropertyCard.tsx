@@ -1,22 +1,26 @@
 import React, { useState } from "react";
-import { View, Text, Image, Pressable } from "react-native";
+import { View, Text, Image, Pressable, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { QuickMessageModal } from "../modals/QuickMessage";
+
+export interface User {
+  name: string;
+  image: string;
+}
+
+export interface PropertyDetails {
+  type: string;
+  bedrooms: number;
+  bathrooms: number;
+}
 
 export interface Property {
   id: number;
   type: string;
   subType: string;
   tag: string;
-  user: {
-    name: string;
-    image: string;
-  };
-  property: {
-    type: string;
-    bedrooms: number;
-    bathrooms: number;
-  };
+  user: User;
+  property: PropertyDetails;
   location: string;
   date: string;
   price: string;
@@ -28,10 +32,10 @@ interface PropertyCardProps {
   isEditable?: boolean;
 }
 
-export function PropertyCard({
+export const PropertyCard: React.FC<PropertyCardProps> = ({
   property,
   isEditable = false,
-}: PropertyCardProps) {
+}) => {
   const [showQuickMessageModal, setShowQuickMessageModal] = useState(false);
 
   const renderTags = () => (
@@ -53,7 +57,7 @@ export function PropertyCard({
   );
 
   const renderUserInfo = () => (
-    <View className="flex-row items-center mt-2">
+    <View className="md:flex hidden flex-row items-center mt-2">
       <Image
         source={{ uri: property.user.image }}
         className="w-8 h-8 rounded-full mr-2"
@@ -76,25 +80,25 @@ export function PropertyCard({
         </Text>
       </View>
       <View className="flex-row items-center justify-between mt-1">
-        <View className="flex-row items-center mt-1">
+        <View className="flex-row items-center">
           <Ionicons name="location-outline" size={16} color="#6B7280" />
           <Text className="text-sm text-gray-600 ml-2">
             {property.location} <Text className="text-blue-500">+2 more</Text>
           </Text>
         </View>
-
-        <Text className="md:hidden flex text-lg font-bold text-blue-600 mt-2">
-          BOT {property.price}
-          {isEditable && (
-            <Text className="text-sm font-normal text-gray-500"> Monthly</Text>
-          )}
-        </Text>
+        {Platform.OS !== "web" ? renderPrice() : null}
       </View>
-      <View className="md:flex hidden flex-row items-center mt-1">
+      {renderAdditionalInfo()}
+    </View>
+  );
+
+  const renderAdditionalInfo = () => (
+    <View className="md:flex hidden">
+      <View className="flex-row items-center mt-1">
         <Ionicons name="calendar-outline" size={16} color="#6B7280" />
         <Text className="text-sm text-gray-600 ml-2">{property.date}</Text>
       </View>
-      <View className="md:flex hidden flex-row items-center mt-1">
+      <View className="flex-row items-center mt-1">
         <Ionicons name="git-compare-outline" size={16} color="#6B7280" />
         <Text className="text-sm text-gray-600 ml-2">
           {isEditable ? "Side-by-side deal" : "50:50% deal"}
@@ -106,11 +110,12 @@ export function PropertyCard({
           className="ml-1"
         />
       </View>
+      {Platform.OS === "web" ? renderPrice() : null}
     </View>
   );
 
   const renderPrice = () => (
-    <Text className="md:flex hidden text-lg font-bold text-blue-600 mt-2">
+    <Text className="self-end text-lg font-bold text-blue-600 mt-2">
       BOT {property.price}
       {isEditable && (
         <Text className="text-sm font-normal text-gray-500"> Monthly</Text>
@@ -192,16 +197,17 @@ export function PropertyCard({
       </View>
       {renderUserInfo()}
       {renderPropertyDetails()}
-      {renderPrice()}
       {renderMatchedProperties()}
       {isEditable ? renderEditableButtons() : renderActionButtons()}
 
-      {showQuickMessageModal ? (
+      {showQuickMessageModal && (
         <QuickMessageModal
           isVisible={showQuickMessageModal}
           onClose={() => setShowQuickMessageModal(false)}
         />
-      ) : null}
+      )}
     </View>
   );
-}
+};
+
+export default PropertyCard;
