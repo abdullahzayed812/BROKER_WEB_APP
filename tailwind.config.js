@@ -4,16 +4,7 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
-      colors: {
-        primary: {
-          DEFAULT: "#007AFF",
-          dark: "#0056B3",
-        },
-        secondary: {
-          DEFAULT: "#FFD60A",
-          dark: "#E6C000",
-        },
-      },
+      colors: {},
     },
   },
   future: {

@@ -11,12 +11,7 @@ export default function MarketplaceScreen() {
 
       <CategoryFilters />
 
-      <RequestsSummary
-        sortBy="Budget"
-        setSortBy={function (sort: string): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
+      <RequestsSummary sortBy="Budget" setSortBy={() => {}} />
 
       <PropertyList />
     </>

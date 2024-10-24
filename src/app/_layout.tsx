@@ -15,13 +15,12 @@ export default function Layout() {
   const pathname = usePathname();
 
   const showHeaderMobile = pathname === "/" || pathname === "/contacts";
-  const showAppHeaderMobile =
-    pathname === "/contacts" || pathname === "/add-request";
+  const showAppHeader = pathname === "/contacts" || pathname === "/add-request";
 
   return (
     <>
       <SafeAreaView className="flex-1 bg-gray-100">
-        {showAppHeaderMobile ? (
+        {showAppHeader ? (
           <AppHeader
             onBackPress={() => router.back()}
             onNotificationPress={() => {}}

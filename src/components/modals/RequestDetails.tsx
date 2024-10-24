@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  Pressable,
-  TextInput,
-} from "react-native";
+import { View, Text, Image, ScrollView, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ModalContainer } from "../shared/ModalContainer";
 import { Button } from "../shared/Button";
@@ -91,11 +84,7 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                   className="mr-2"
                   onPress={() => setShowReportBrokerModal(true)}
                 >
-                  <Ionicons
-                    name="chatbubble-outline"
-                    size={24}
-                    color="#6B7280"
-                  />
+                  <Ionicons name="flag-outline" size={24} color="#6B7280" />
                 </Pressable>
                 <Pressable>
                   <Ionicons

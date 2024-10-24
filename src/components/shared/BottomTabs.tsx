@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 
 export default function BottomTabs() {
   return (
-    <View className="md:hidden flex flex-row justify-around items-center bg-white border-t border-green-600 py-2">
+    <View className="md:hidden flex flex-row justify-around items-center bg-white border-t border-gray-400 py-2">
       <Link href="/" asChild>
         <TouchableOpacity className="items-center">
           <Ionicons name="search" size={24} color="#007AFF" />
@@ -21,7 +21,7 @@ export default function BottomTabs() {
       </Link>
       <Link href="/add-request" asChild>
         <TouchableOpacity className="items-center justify-center">
-          <View className="bg-yellow-400 w-14 h-14 rounded-full flex items-center justify-center -mt-5">
+          <View className="bg-blue-400 w-14 h-14 border-2 border-yellow-600 rounded-full flex items-center justify-center">
             <Text className="text-white text-3xl">+</Text>
           </View>
         </TouchableOpacity>

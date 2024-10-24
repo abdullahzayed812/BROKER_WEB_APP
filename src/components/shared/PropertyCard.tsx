@@ -28,7 +28,7 @@ interface PropertyCardProps {
   isEditable?: boolean;
 }
 
-export default function PropertyCard({
+export function PropertyCard({
   property,
   isEditable = false,
 }: PropertyCardProps) {
@@ -75,10 +75,19 @@ export default function PropertyCard({
           </Text>
         </Text>
       </View>
-      <View className="flex-row items-center mt-1">
-        <Ionicons name="location-outline" size={16} color="#6B7280" />
-        <Text className="text-sm text-gray-600 ml-2">
-          {property.location} <Text className="text-blue-500">+2 more</Text>
+      <View className="flex-row items-center justify-between mt-1">
+        <View className="flex-row items-center mt-1">
+          <Ionicons name="location-outline" size={16} color="#6B7280" />
+          <Text className="text-sm text-gray-600 ml-2">
+            {property.location} <Text className="text-blue-500">+2 more</Text>
+          </Text>
+        </View>
+
+        <Text className="md:hidden flex text-lg font-bold text-blue-600 mt-2">
+          BOT {property.price}
+          {isEditable && (
+            <Text className="text-sm font-normal text-gray-500"> Monthly</Text>
+          )}
         </Text>
       </View>
       <View className="md:flex hidden flex-row items-center mt-1">

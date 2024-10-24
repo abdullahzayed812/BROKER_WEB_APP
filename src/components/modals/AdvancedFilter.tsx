@@ -50,8 +50,8 @@ export function AdvancedFilterModal({
 
   return (
     <ModalContainer isVisible={isVisible} onClose={onClose}>
-      <View className="bg-white rounded-t-3xl flex-1">
-        <ScrollView>
+      <View className="bg-white rounded-t-3xl h-full">
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View className="p-6">
             <View className="flex-row justify-between items-center mb-6">
               <Text className="text-2xl font-semibold">Filters</Text>

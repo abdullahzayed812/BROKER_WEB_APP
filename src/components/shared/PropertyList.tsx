@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Pressable, View } from "react-native";
-import PropertyCard, { Property } from "./PropertyCard";
+import { Property, PropertyCard } from "./PropertyCard";
 import { RequestDetailsModal } from "../modals/RequestDetails";
 import { generateList } from "@/utility";
+import { SwipeCard } from "./SwipeCard";
 
 export const propertyItem: Property = {
   id: 1,
