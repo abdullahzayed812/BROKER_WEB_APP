@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { FilterLocationModal } from "../modals/FilterLocation";
-import { FilterRentModal } from "../modals/FilterRentModal";
+import { LocationFilter } from "../modals/LocationFilter";
 import { AdvancedFilterModal } from "../modals/AdvancedFilter";
+import { ShowContentModal } from "../modals/ShowContent";
+import { RentOrBuyFilterModal } from "../modals/RentOrBuyFilter";
 
 type DropdownOption = "Requests" | "Rent" | "Location";
 
@@ -15,6 +16,9 @@ export function HeaderMobile() {
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [showAdvancedFilterModal, setShowAdvancedFilterModal] = useState(false);
 
+  const [isShowContentModalVisible, setIsShowContentModalVisible] =
+    useState(false);
+
   const toggleDropdown = (dropdown: DropdownOption) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
   };
@@ -23,6 +27,7 @@ export function HeaderMobile() {
     console.log("Requests dropdown pressed");
     toggleDropdown("Requests");
     // Add your logic here for handling the Requests dropdown
+    setIsShowContentModalVisible(true);
   };
 
   const handleRentPress = () => {
@@ -77,23 +82,38 @@ export function HeaderMobile() {
         </TouchableOpacity>
       </View>
 
+      {isShowContentModalVisible ? (
+        <ShowContentModal
+          isVisible={isShowContentModalVisible}
+          onClose={() => setIsShowContentModalVisible(false)}
+        />
+      ) : null}
       {showRendRentModal ? (
-        <FilterRentModal
+        <RentOrBuyFilterModal
           isVisible={showRendRentModal}
           onClose={() => setShowRentRentModal(false)}
+          onFilterChange={function (filters: {
+            type: "rent" | "buy";
+            duration: "long" | "short";
+          }): void {
+            throw new Error("Function not implemented.");
+          }}
         />
       ) : null}
       {showLocationModal ? (
-        <FilterLocationModal
+        <LocationFilter
           isVisible={showLocationModal}
           onClose={() => setShowLocationModal(false)}
+          onApply={function (selectedLocations: string[]): void {
+            throw new Error("Function not implemented.");
+          }}
         />
       ) : null}
       {showAdvancedFilterModal ? (
         <AdvancedFilterModal
           isVisible={showAdvancedFilterModal}
           onClose={() => setShowAdvancedFilterModal(false)}
-          onApplyFilters={function (filters: any): void {
+          onApply={function (filters: any): void {
             throw new Error("Function not implemented.");
           }}
         />

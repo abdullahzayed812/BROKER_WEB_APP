@@ -2,27 +2,20 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  Image,
+  TouchableOpacity,
   TextInput,
   ScrollView,
-  Pressable,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { ModalContainer } from "../shared/ModalContainer";
-import { RadioButton } from "../shared/RadioButton";
+import { Ionicons } from "@expo/vector-icons";
 
 interface ReportBrokerModalProps {
   isVisible: boolean;
   onClose: () => void;
-  broker: {
-    name: string;
-    company: string;
-    rating: number;
-    image: string;
-  };
+  onConfirm: (issue: string, otherDetails?: string) => void;
 }
 
-const reportOptions = [
+const issueOptions = [
   "Poor Communication",
   "Fraud",
   "Privacy Concerns",
@@ -32,67 +25,72 @@ const reportOptions = [
   "Other",
 ];
 
-export const ReportBrokerModal: React.FC<ReportBrokerModalProps> = ({
+export function ReportBrokerModal({
   isVisible,
   onClose,
-  broker,
-}) => {
-  const [selectedOption, setSelectedOption] = useState("");
-  const [otherReason, setOtherReason] = useState("");
+  onConfirm,
+}: ReportBrokerModalProps) {
+  const [selectedIssue, setSelectedIssue] = useState("");
+  const [otherIssue, setOtherIssue] = useState("");
 
-  const handleSubmit = () => {
-    // Handle report submission logic here
-    console.log("Report submitted:", selectedOption, otherReason);
+  const handleConfirm = () => {
+    onConfirm(
+      selectedIssue,
+      selectedIssue === "Other" ? otherIssue : undefined
+    );
+    setSelectedIssue("");
+    setOtherIssue("");
     onClose();
   };
 
   return (
     <ModalContainer isVisible={isVisible} onClose={onClose}>
-      <View className="p-4">
-        <Text className="text-xl font-bold mb-4">Report Broker</Text>
-        <View className="flex-row items-center mb-4">
-          <Image
-            source={{ uri: broker.image }}
-            className="w-12 h-12 rounded-full mr-3"
-          />
-          <View>
-            <Text className="font-semibold">{broker.name}</Text>
-            <Text className="text-gray-600">{broker.company}</Text>
-          </View>
-          <View className="ml-auto flex-row items-center">
-            <Ionicons name="star" size={16} color="gold" />
-            <Text className="ml-1">{broker.rating}</Text>
-          </View>
-        </View>
-        <ScrollView className="mb-4">
-          {reportOptions.map((option) => (
-            <RadioButton
-              key={option}
-              label={option}
-              isSelected={selectedOption === option}
-              onSelect={() => setSelectedOption(option)}
-            />
-          ))}
-        </ScrollView>
-        {selectedOption === "Other" && (
+      <ScrollView className="bg-white px-4 py-6">
+        <Text className="text-xl font-semibold mb-6">Report an issue</Text>
+
+        {issueOptions.map((issue) => (
+          <TouchableOpacity
+            key={issue}
+            className="flex-row items-center mb-4"
+            onPress={() => setSelectedIssue(issue)}
+          >
+            <View
+              className={`w-6 h-6 rounded-full border-2 ${
+                selectedIssue === issue ? "border-blue-500" : "border-gray-300"
+              } mr-3 items-center justify-center`}
+            >
+              {selectedIssue === issue && (
+                <View className="w-3 h-3 rounded-full bg-blue-500" />
+              )}
+            </View>
+            <Text className="text-base">{issue}</Text>
+          </TouchableOpacity>
+        ))}
+
+        {selectedIssue === "Other" && (
           <TextInput
-            className="border border-gray-300 rounded-lg p-2 mb-4 h-28"
-            placeholder="Other"
-            value={otherReason}
-            onChangeText={setOtherReason}
+            className="h-24 border border-gray-300 rounded-lg px-3 py-2 mb-4"
+            placeholder="Please specify the issue"
+            value={otherIssue}
+            onChangeText={setOtherIssue}
             multiline
           />
         )}
-        <Pressable
-          onPress={handleSubmit}
-          className="bg-blue-500 py-2 px-4 rounded-lg items-center"
+
+        <View className="flex-row items-center mb-6">
+          <Ionicons name="star-outline" size={18} color="#0078FF" />
+          <Text className="text-blue-500 ml-2">Rate Broker</Text>
+        </View>
+
+        <TouchableOpacity
+          className="bg-blue-500 py-4 rounded-lg"
+          onPress={handleConfirm}
         >
-          <Text className="text-white font-semibold">Submit Report</Text>
-        </Pressable>
-        <Pressable onPress={onClose} className="mt-4 items-center">
-          <Text className="text-blue-500">Rate Broker</Text>
-        </Pressable>
-      </View>
+          <Text className="text-white text-center text-lg font-semibold">
+            Confirm
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
     </ModalContainer>
   );
-};
+}

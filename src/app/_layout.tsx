@@ -15,25 +15,25 @@ export default function Layout() {
   const pathname = usePathname();
 
   const showHeaderMobile = pathname === "/" || pathname === "/contacts";
-  const showAppHeader = pathname === "/contacts" || pathname === "/add-request";
+  // const showAppHeader = pathname === "/contacts" || pathname === "/add-request";
 
   return (
     <>
       <SafeAreaView className="flex-1 bg-gray-100">
-        {showAppHeader ? (
+        {/* {showAppHeader ? (
           <AppHeader
             onBackPress={() => router.back()}
             onNotificationPress={() => {}}
             hasNotifications={false}
           />
-        ) : null}
+        ) : null} */}
 
         <Header />
 
         {showHeaderMobile ? <HeaderMobile /> : null}
 
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View className="md:w-[95%] p-4 bg-blue-50 md:self-center">
+          <View className="md:w-[95%] bg-blue-50 md:self-center">
             <Slot />
 
             <Pagination

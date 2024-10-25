@@ -48,7 +48,6 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
   const [extraDetails, setExtraDetails] = useState(
     requestDetails.property.description
   );
-
   const [showRateModal, setShowRateModal] = useState(false);
   const [showReportBrokerModal, setShowReportBrokerModal] = useState(false);
 
@@ -60,7 +59,7 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
           className="w-12 h-12 rounded-full mr-3"
         />
         <View>
-          <Text className="font-semibold text-lg">
+          <Text className="font-semibold text-lg md:text-xl">
             {requestDetails.agent.name} @ {requestDetails.agent.company}
           </Text>
           <View className="flex-row items-center justify-between">
@@ -70,7 +69,6 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
                 {requestDetails.agent.rating}
               </Text>
             </View>
-
             <View className="flex-row items-center">
               <Text className="text-gray-500 mr-2">1d</Text>
               <View className="flex-row items-center">
@@ -112,8 +110,8 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
         <Text
           className={
             viewMode === "text"
-              ? "text-blue-500 font-semibold"
-              : "text-gray-700"
+              ? "text-blue-500 font-semibold md:text-base text-sm"
+              : "text-gray-700 md:text-base text-sm"
           }
         >
           Text
@@ -128,8 +126,8 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
         <Text
           className={
             viewMode === "table"
-              ? "text-blue-500 font-semibold"
-              : "text-gray-700"
+              ? "text-blue-500 font-semibold md:text-base text-sm"
+              : "text-gray-700 md:text-base text-sm"
           }
         >
           Table with AI
@@ -140,13 +138,15 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
 
   const TextView = () => (
     <View>
-      <Text className="text-sm text-gray-600 mb-4">
+      <Text className="text-sm md:text-base text-gray-600 mb-4">
         Try out our new feature! Send a message to our WhatsApp number{" "}
         <Text className="text-green-500">+20 10 3000 4000</Text> to quickly post
         your request with our AI-powered text formatting.
       </Text>
       <View className="bg-green-100 rounded-lg p-4 mb-4">
-        <Text className="text-sm">{requestDetails.property.description}</Text>
+        <Text className="text-sm md:text-base">
+          {requestDetails.property.description}
+        </Text>
         <Text className="text-right text-gray-500 mt-2">10:10 PM ✓✓</Text>
       </View>
     </View>
@@ -161,7 +161,7 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
           color="#6B7280"
           className="mr-2"
         />
-        <Text className="text-sm text-gray-600">
+        <Text className="text-sm md:text-base text-gray-600">
           This formatted table was created from the original text sent to our
           WhatsApp number{" "}
           <Text className="text-green-500">+20 10 3000 4000</Text>, using our
@@ -170,7 +170,7 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
       </View>
       <View className="bg-blue-50 rounded-lg overflow-hidden mb-4">
         <View className="bg-blue-100 p-3">
-          <Text className="font-semibold text-lg">Details</Text>
+          <Text className="font-semibold text-lg md:text-xl">Details</Text>
         </View>
         <View className="p-4">
           <TableRow
@@ -243,13 +243,17 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
         </View>
       </View>
       <View className="mb-4">
-        <Text className="font-semibold text-lg mb-2">Extra Details</Text>
+        <Text className="font-semibold text-lg md:text-xl mb-2">
+          Extra Details
+        </Text>
         <View className="bg-white rounded-lg p-4 border border-gray-200">
           <Text className="text-gray-600">{extraDetails}</Text>
         </View>
       </View>
       <View className="mb-4">
-        <Text className="font-semibold text-lg mb-2">5 Matched Properties</Text>
+        <Text className="font-semibold text-lg md:text-xl mb-2">
+          5 Matched Properties
+        </Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {requestDetails.matchedProperties.map((uri, index) => (
             <Image
@@ -266,9 +270,15 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
   const TableRow = ({ icon, label, value }) => (
     <View className="flex-row items-center mb-4">
       <Ionicons name={icon} size={24} color="#6B7280" />
-      <Text className="text-gray-600 ml-3 w-32">{label}</Text>
+      <Text className="text-gray-600 ml-3 w-32 md:text-base text-sm">
+        {label}
+      </Text>
       <View className="flex-1">
-        {typeof value === "string" ? <Text>{value}</Text> : value}
+        {typeof value === "string" ? (
+          <Text className="md:text-base text-sm">{value}</Text>
+        ) : (
+          value
+        )}
       </View>
     </View>
   );
@@ -306,31 +316,28 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
         </ScrollView>
       </ModalContainer>
 
-      {showRateModal ? (
+      {showRateModal && (
         <RateBrokerModal
           isVisible={showRateModal}
           onClose={() => setShowRateModal(false)}
-          broker={{
-            name: "Ahmed Radwan",
-            company: "Almansoura",
-            rating: 0,
-            image: "",
+          onConfirm={function (rating: number, comment: string): void {
+            throw new Error("Function not implemented.");
+          }}
+          onReportIssue={function (): void {
+            throw new Error("Function not implemented.");
           }}
         />
-      ) : null}
+      )}
 
-      {showReportBrokerModal ? (
+      {showReportBrokerModal && (
         <ReportBrokerModal
           isVisible={showReportBrokerModal}
           onClose={() => setShowReportBrokerModal(false)}
-          broker={{
-            name: "Zoo Doo",
-            company: "Alex",
-            rating: 0,
-            image: "",
+          onConfirm={function (issue: string, otherDetails?: string): void {
+            throw new Error("Function not implemented.");
           }}
         />
-      ) : null}
+      )}
     </>
   );
 };

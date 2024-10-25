@@ -17,10 +17,17 @@ const FilterDropdown = ({ label }) => (
 export default function ContactedRequestsPage() {
   return (
     <View>
-      <View className="flex-row flex-wrap justify-center" style={{ gap: 12 }}>
+      <View
+        className="flex-row flex-wrap justify-center py-4"
+        style={{ gap: 12 }}
+      >
         {generateList(10, propertyItem).map((request) => (
           <View className="w-full max-w-sm">
-            <PropertyCard property={request} isEditable={false} />
+            <PropertyCard
+              property={request}
+              isEditable={false}
+              isContactStatus
+            />
           </View>
         ))}
       </View>

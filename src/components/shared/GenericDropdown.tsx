@@ -37,7 +37,7 @@ export default function GenericDropdown<T>({
   };
 
   return (
-    <View className="flex-row items-center mb-4">
+    <View className="flex-row items-center flex-1">
       <Text className="flex-1 text-sm font-medium text-gray-700 mb-1">
         {label}
       </Text>

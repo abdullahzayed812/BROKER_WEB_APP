@@ -13,6 +13,7 @@ interface ModalContainerProps {
   onClose: () => void;
   children: React.ReactNode;
   width?: number | string;
+  isCloseIconVisible?: boolean;
 }
 
 export const ModalContainer: React.FC<ModalContainerProps> = ({
@@ -20,6 +21,7 @@ export const ModalContainer: React.FC<ModalContainerProps> = ({
   onClose,
   children,
   width = "80%",
+  isCloseIconVisible = true,
 }) => {
   const modalRef = useRef<View>(null);
 
@@ -45,14 +47,16 @@ export const ModalContainer: React.FC<ModalContainerProps> = ({
   return (
     <Modal visible={isVisible} animationType="slide" transparent>
       <TouchableWithoutFeedback onPress={handleOutsideClick}>
-        <View className="flex-1 md:justify-center md:items-center justify-end bg-black bg-opacity-50">
+        <View className="flex-1 md:justify-center md:items-center justify-end bg-gray-400">
           <View
             ref={modalRef}
             className="bg-white rounded-3xl md:p-6 p-2 max-h-[90%] md:w-[90%] w-full"
           >
-            <Pressable onPress={onClose} className="absolute right-6 top-6">
-              <Ionicons name="close" size={24} color="black" />
-            </Pressable>
+            {isCloseIconVisible ? (
+              <Pressable onPress={onClose} className="absolute right-6 top-6">
+                <Ionicons name="close" size={24} color="black" />
+              </Pressable>
+            ) : null}
             {children}
           </View>
         </View>

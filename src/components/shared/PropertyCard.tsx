@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, Image, Pressable, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { QuickMessageModal } from "../modals/QuickMessage";
+import { ContactStatus } from "./ContactStatus";
 
 export interface User {
   name: string;
@@ -30,11 +31,13 @@ export interface Property {
 interface PropertyCardProps {
   property: Property;
   isEditable?: boolean;
+  isContactStatus?: boolean;
 }
 
 export const PropertyCard: React.FC<PropertyCardProps> = ({
   property,
   isEditable = false,
+  isContactStatus = false,
 }) => {
   const [showQuickMessageModal, setShowQuickMessageModal] = useState(false);
 
@@ -199,6 +202,9 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
       {renderPropertyDetails()}
       {renderMatchedProperties()}
       {isEditable ? renderEditableButtons() : renderActionButtons()}
+      {isContactStatus ? (
+        <ContactStatus date={"whatsapp"} method={"whatsapp"} />
+      ) : null}
 
       {showQuickMessageModal && (
         <QuickMessageModal

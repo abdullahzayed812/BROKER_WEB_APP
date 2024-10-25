@@ -3,244 +3,309 @@ import {
   View,
   Text,
   TouchableOpacity,
-  TextInput,
   ScrollView,
+  TextInput,
 } from "react-native";
+import { ModalContainer } from "../shared/ModalContainer";
+import GenericDropdown from "../shared/GenericDropdown";
 import { Ionicons } from "@expo/vector-icons";
-import { ModalContainer } from "../shared/ModalContainer"; // Assuming this is the path to your ModalContainer component
 
-interface AdvancedFilterModalProps {
+interface AdvancedFilterProps {
   isVisible: boolean;
   onClose: () => void;
-  onApplyFilters: (filters: any) => void;
+  onApply: (filters: any) => void;
 }
 
 export function AdvancedFilterModal({
   isVisible,
   onClose,
-  onApplyFilters,
-}: AdvancedFilterModalProps) {
-  const [rentOrBuy, setRentOrBuy] = useState<"Rent" | "Buy">("Rent");
-  const [stayDuration, setStayDuration] = useState<
-    "Long Stays" | "Short Stays"
-  >("Long Stays");
-  const [propertyTypes, setPropertyTypes] = useState<string[]>(["Apartment"]);
-  const [bedrooms, setBedrooms] = useState(1);
-  const [bathrooms, setBathrooms] = useState(1);
+  onApply,
+}: AdvancedFilterProps) {
+  const [filters, setFilters] = useState({
+    rentOrBuy: "buy",
+    stayDuration: "long",
+    budget: {
+      type: "Monthly",
+      from: "",
+      to: "",
+      fromCurrency: "EGP",
+      toCurrency: "EGP",
+    },
+    propertyType: ["Apartment"],
+    bedrooms: 1,
+    bathrooms: 1,
+    datePosted: "16/06/2024",
+  });
 
-  const togglePropertyType = (type: string) => {
-    if (propertyTypes.includes(type)) {
-      setPropertyTypes(propertyTypes.filter((t) => t !== type));
-    } else {
-      setPropertyTypes([...propertyTypes, type]);
-    }
+  const handleFilterChange = (key: string, value: any) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleApplyFilters = () => {
-    onApplyFilters({
-      rentOrBuy,
-      stayDuration,
-      propertyTypes,
-      bedrooms,
-      bathrooms,
-      // Add other filter values here
-    });
-    onClose();
+  const handleBudgetChange = (key: string, value: any) => {
+    setFilters((prev) => ({
+      ...prev,
+      budget: { ...prev.budget, [key]: value },
+    }));
+  };
+
+  const handlePropertyTypeToggle = (type: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      propertyType: prev.propertyType.includes(type)
+        ? prev.propertyType.filter((t) => t !== type)
+        : [...prev.propertyType, type],
+    }));
+  };
+
+  const handleRoomChange = (
+    room: "bedrooms" | "bathrooms",
+    operation: "add" | "subtract"
+  ) => {
+    setFilters((prev) => ({
+      ...prev,
+      [room]:
+        operation === "add" ? prev[room] + 1 : Math.max(1, prev[room] - 1),
+    }));
   };
 
   return (
-    <ModalContainer isVisible={isVisible} onClose={onClose}>
-      <View className="bg-white rounded-t-3xl h-full">
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View className="p-6">
-            <View className="flex-row justify-between items-center mb-6">
-              <Text className="text-2xl font-semibold">Filters</Text>
-              <TouchableOpacity onPress={onClose}>
-                <Text className="text-blue-500">Clear all</Text>
-              </TouchableOpacity>
-            </View>
+    <ModalContainer
+      isVisible={isVisible}
+      onClose={onClose}
+      isCloseIconVisible={false}
+    >
+      <ScrollView className="px-4" showsVerticalScrollIndicator={false}>
+        <View className="flex-row justify-between items-center mb-6">
+          <Text className="text-xl font-semibold">Filters</Text>
+          <TouchableOpacity
+            onPress={() =>
+              setFilters({
+                rentOrBuy: "buy",
+                stayDuration: "long",
+                budget: {
+                  type: "Monthly",
+                  from: "",
+                  to: "",
+                  fromCurrency: "EGP",
+                  toCurrency: "EGP",
+                },
+                propertyType: [],
+                bedrooms: 1,
+                bathrooms: 1,
+                datePosted: "16/06/2024",
+              })
+            }
+          >
+            <Text className="text-blue-500">Clear all</Text>
+          </TouchableOpacity>
+        </View>
 
-            <View className="flex-row bg-gray-100 rounded-full p-1 mb-4">
+        <View className="mb-6">
+          <View className="flex-row bg-gray-100 rounded-lg p-1">
+            {["Rent", "Buy"].map((option) => (
               <TouchableOpacity
-                className={`flex-1 py-2 rounded-full ${
-                  rentOrBuy === "Rent" ? "bg-white" : ""
+                key={option}
+                onPress={() =>
+                  handleFilterChange("rentOrBuy", option.toLowerCase())
+                }
+                className={`flex-1 py-2 rounded-md ${
+                  filters.rentOrBuy === option.toLowerCase()
+                    ? "bg-white shadow"
+                    : ""
                 }`}
-                onPress={() => setRentOrBuy("Rent")}
               >
                 <Text
                   className={`text-center ${
-                    rentOrBuy === "Rent" ? "text-blue-500" : "text-gray-500"
+                    filters.rentOrBuy === option.toLowerCase()
+                      ? "text-blue-500 font-semibold"
+                      : "text-gray-600"
                   }`}
                 >
-                  Rent
+                  {option}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                className={`flex-1 py-2 rounded-full ${
-                  rentOrBuy === "Buy" ? "bg-white" : ""
-                }`}
-                onPress={() => setRentOrBuy("Buy")}
+            ))}
+          </View>
+        </View>
+
+        <View className="flex-row mb-6">
+          {["Long Stays", "Short Stays"].map((option) => (
+            <TouchableOpacity
+              key={option}
+              onPress={() =>
+                handleFilterChange(
+                  "stayDuration",
+                  option.split(" ")[0].toLowerCase()
+                )
+              }
+              className="flex-row items-center mr-4"
+            >
+              <View
+                className={`w-5 h-5 rounded-full border-2 ${
+                  filters.stayDuration === option.split(" ")[0].toLowerCase()
+                    ? "bg-blue-500 border-blue-500"
+                    : "border-gray-300"
+                } mr-2 items-center justify-center`}
               >
-                <Text
-                  className={`text-center ${
-                    rentOrBuy === "Buy" ? "text-blue-500" : "text-gray-500"
-                  }`}
-                >
-                  Buy
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View className="flex-row mb-4">
-              <TouchableOpacity
-                className="flex-row items-center mr-4"
-                onPress={() => setStayDuration("Long Stays")}
-              >
-                <View
-                  className={`w-5 h-5 rounded-full border-2 ${
-                    stayDuration === "Long Stays"
-                      ? "bg-blue-500 border-blue-500"
-                      : "border-gray-300"
-                  } mr-2`}
-                />
-                <Text>Long Stays</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                className="flex-row items-center"
-                onPress={() => setStayDuration("Short Stays")}
-              >
-                <View
-                  className={`w-5 h-5 rounded-full border-2 ${
-                    stayDuration === "Short Stays"
-                      ? "bg-blue-500 border-blue-500"
-                      : "border-gray-300"
-                  } mr-2`}
-                />
-                <Text>Short Stays</Text>
-              </TouchableOpacity>
-            </View>
-
-            <TouchableOpacity className="flex-row justify-between items-center py-4 border-b border-gray-200">
-              <Text className="text-lg">Location</Text>
-              <Ionicons name="chevron-forward" size={24} color="gray" />
-            </TouchableOpacity>
-
-            <View className="py-4 border-b border-gray-200">
-              <View className="flex-row justify-between items-center mb-2">
-                <Text className="text-lg">Budget</Text>
-                <TouchableOpacity className="bg-gray-100 px-3 py-1 rounded-full">
-                  <Text>Monthly</Text>
-                </TouchableOpacity>
-              </View>
-              <View className="flex-row justify-between">
-                <View className="flex-row items-center">
-                  <TextInput
-                    placeholder="From"
-                    className="border border-gray-300 rounded-lg px-3 py-2 w-24"
-                    keyboardType="numeric"
-                  />
-                  <Text className="ml-2">EGP</Text>
-                </View>
-                <View className="flex-row items-center">
-                  <TextInput
-                    placeholder="To"
-                    className="border border-gray-300 rounded-lg px-3 py-2 w-24"
-                    keyboardType="numeric"
-                  />
-                  <Text className="ml-2">EGP</Text>
-                </View>
-              </View>
-            </View>
-
-            <View className="py-4 border-b border-gray-200">
-              <Text className="text-lg mb-2">Type</Text>
-              <View className="flex-row flex-wrap">
-                {["Studio", "Apartment", "Duplex", "Villa", "Townhouse"].map(
-                  (type) => (
-                    <TouchableOpacity
-                      key={type}
-                      className={`mr-2 mb-2 px-4 py-2 rounded-full ${
-                        propertyTypes.includes(type)
-                          ? "bg-blue-100"
-                          : "bg-gray-100"
-                      }`}
-                      onPress={() => togglePropertyType(type)}
-                    >
-                      <Text
-                        className={
-                          propertyTypes.includes(type)
-                            ? "text-blue-500"
-                            : "text-gray-500"
-                        }
-                      >
-                        {type}
-                      </Text>
-                    </TouchableOpacity>
-                  )
+                {filters.stayDuration ===
+                  option.split(" ")[0].toLowerCase() && (
+                  <View className="w-2 h-2 rounded-full bg-white" />
                 )}
               </View>
-            </View>
+              <Text>{option}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
 
-            <View className="py-4">
-              <Text className="text-lg mb-2">No. of rooms</Text>
-              <View className="flex-row justify-between items-center mb-2">
-                <Text>Bedrooms</Text>
-                <View className="flex-row items-center">
-                  <TouchableOpacity
-                    onPress={() => setBedrooms(Math.max(0, bedrooms - 1))}
-                  >
-                    <Ionicons
-                      name="remove-circle-outline"
-                      size={24}
-                      color="gray"
-                    />
-                  </TouchableOpacity>
-                  <Text className="mx-4">{bedrooms}</Text>
-                  <TouchableOpacity onPress={() => setBedrooms(bedrooms + 1)}>
-                    <Ionicons
-                      name="add-circle-outline"
-                      size={24}
-                      color="blue"
-                    />
-                  </TouchableOpacity>
-                </View>
+        <TouchableOpacity className="flex-row justify-between items-center py-2 border-b border-gray-200 mb-6">
+          <Text className="text-lg">Location</Text>
+          <Ionicons name="chevron-forward" size={24} color="gray" />
+        </TouchableOpacity>
+
+        <View className="mb-6">
+          <View className="flex-row mb-6">
+            <Text className="text-lg font-semibold">Budget</Text>
+            <View className="flex-1">
+              <GenericDropdown
+                label=""
+                options={["Monthly", "Weekly", "Daily"]}
+                selectedValue={filters.budget.type}
+                onSelect={(value) => handleBudgetChange("type", value)}
+                placeholder="Monthly"
+              />
+            </View>
+          </View>
+          <View className="flex-row mb-4">
+            <View className="flex-1 mr-2">
+              <View className="flex-row items-center border border-gray-300 rounded-lg">
+                <TextInput
+                  className="px-3 py-2"
+                  placeholder="From"
+                  value={filters.budget.from}
+                  onChangeText={(value) => handleBudgetChange("from", value)}
+                  keyboardType="numeric"
+                />
+                {/* <View className="flex-1 items-center"> */}
+                <GenericDropdown
+                  label=""
+                  options={["EGP", "USD", "EUR"]}
+                  selectedValue={filters.budget.fromCurrency}
+                  onSelect={(value) =>
+                    handleBudgetChange("fromCurrency", value)
+                  }
+                  placeholder="EGP"
+                />
+                {/* </View> */}
               </View>
-              <View className="flex-row justify-between items-center">
-                <Text>Bathrooms</Text>
-                <View className="flex-row items-center">
-                  <TouchableOpacity
-                    onPress={() => setBathrooms(Math.max(0, bathrooms - 1))}
-                  >
-                    <Ionicons
-                      name="remove-circle-outline"
-                      size={24}
-                      color="gray"
-                    />
-                  </TouchableOpacity>
-                  <Text className="mx-4">{bathrooms}</Text>
-                  <TouchableOpacity onPress={() => setBathrooms(bathrooms + 1)}>
-                    <Ionicons
-                      name="add-circle-outline"
-                      size={24}
-                      color="blue"
-                    />
-                  </TouchableOpacity>
-                </View>
+            </View>
+            <View className="flex-1">
+              <View className="flex-row items-center border border-gray-300 rounded-lg">
+                <TextInput
+                  className="px-3 py-2"
+                  placeholder="To"
+                  value={filters.budget.to}
+                  onChangeText={(value) => handleBudgetChange("to", value)}
+                  keyboardType="numeric"
+                />
+                {/* <View className="flex-1 items-center"> */}
+                <GenericDropdown
+                  label=""
+                  options={["EGP", "USD", "EUR"]}
+                  selectedValue={filters.budget.toCurrency}
+                  onSelect={(value) => handleBudgetChange("toCurrency", value)}
+                  placeholder="EGP"
+                />
+                {/* </View> */}
               </View>
             </View>
           </View>
-        </ScrollView>
-        <View className="p-6">
-          <TouchableOpacity
-            className="bg-blue-500 py-4 rounded-lg items-center"
-            onPress={handleApplyFilters}
-          >
-            <Text className="text-white text-lg font-semibold">
-              Show 55 Requests
-            </Text>
+        </View>
+
+        <View className="mb-6">
+          <Text className="text-lg mb-2">Type</Text>
+          <View className="flex-row flex-wrap">
+            {["Studio", "Apartment", "Duplex", "Villa", "Townhouse"].map(
+              (type) => (
+                <TouchableOpacity
+                  key={type}
+                  onPress={() => handlePropertyTypeToggle(type)}
+                  className={`mr-2 mb-2 px-3 py-1 rounded-full ${
+                    filters.propertyType.includes(type)
+                      ? "bg-blue-100"
+                      : "bg-gray-100"
+                  }`}
+                >
+                  <Text
+                    className={
+                      filters.propertyType.includes(type)
+                        ? "text-blue-500"
+                        : "text-gray-600"
+                    }
+                  >
+                    {type}
+                  </Text>
+                </TouchableOpacity>
+              )
+            )}
+          </View>
+        </View>
+
+        <View className="mb-6">
+          <Text className="text-lg mb-2">No. of rooms</Text>
+          {["Bedrooms", "Bathrooms"].map((room) => (
+            <View
+              key={room}
+              className="flex-row items-center justify-between mb-2"
+            >
+              <Text>{room}</Text>
+              <View className="flex-row items-center">
+                <TouchableOpacity
+                  onPress={() =>
+                    handleRoomChange(
+                      room.toLowerCase() as "bedrooms" | "bathrooms",
+                      "subtract"
+                    )
+                  }
+                  className="w-8 h-8 bg-gray-200 rounded-full items-center justify-center"
+                >
+                  <Text className="text-xl">-</Text>
+                </TouchableOpacity>
+                <Text className="mx-4">
+                  {filters[room.toLowerCase() as "bedrooms" | "bathrooms"]}
+                </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    handleRoomChange(
+                      room.toLowerCase() as "bedrooms" | "bathrooms",
+                      "add"
+                    )
+                  }
+                  className="w-8 h-8 bg-blue-500 rounded-full items-center justify-center"
+                >
+                  <Text className="text-xl text-white">+</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ))}
+        </View>
+
+        <View className="mb-6">
+          <Text className="text-lg mb-2">Date Posted</Text>
+          <TouchableOpacity className="flex-row justify-between items-center border border-gray-300 rounded-lg p-3">
+            <Text>{filters.datePosted}</Text>
+            <Ionicons name="calendar-outline" size={24} color="gray" />
           </TouchableOpacity>
         </View>
-      </View>
+
+        <TouchableOpacity
+          className="bg-blue-500 py-4 rounded-lg"
+          onPress={() => onApply(filters)}
+        >
+          <Text className="text-white text-center text-lg font-semibold">
+            Show 55 Requests
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
     </ModalContainer>
   );
 }

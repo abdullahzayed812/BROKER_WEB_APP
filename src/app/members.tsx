@@ -31,7 +31,7 @@ const FilterDropdown = ({ label }) => (
 
 const ActionButton = ({ icon, color = "#9CA3AF", onPress }) => (
   <Pressable
-    className="w-10 h-10 rounded-lg bg-gray-100 items-center justify-center"
+    className="w-10 h-10 rounded-lg border border-slate-50 mr-1 items-center justify-center"
     onPress={onPress}
   >
     <Ionicons name={icon} size={20} color={color} />
@@ -132,7 +132,7 @@ export default function MembersPage() {
   const onMenuPress = () => {};
 
   return (
-    <View className="">
+    <View className="p-4 bg-white">
       <View className="md:flex hidden flex-row items-center space-x-4 mb-6">
         <SearchBar placeholder="Search Members" onSearch={handleSearch} />
         <FilterDropdown label="Filter" />
@@ -145,7 +145,7 @@ export default function MembersPage() {
       </View>
 
       <View className="flex md:hidden flex-row items-center mb-4">
-        <View className="flex-1 flex-row items-center bg-gray-100 rounded-lg mr-2 px-3 py-2">
+        <View className="flex-1 flex-row items-center bg-gray-50 rounded-lg mr-2 px-3 py-2">
           <Ionicons name="search-outline" size={20} color="#9CA3AF" />
           <TextInput
             className="flex-1 ml-2 text-base"

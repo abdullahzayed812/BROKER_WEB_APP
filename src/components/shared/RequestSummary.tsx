@@ -18,7 +18,7 @@ const RequestsSummary: React.FC<RequestsSummaryProps> = ({
 
   return (
     <>
-      <View className="flex-row justify-between items-center mb-8">
+      <View className="flex-row justify-between items-center px-6 mb-8">
         <Text className="md:text-lg text-[12px] md:font-semibold">
           2,457 Requests
         </Text>

@@ -1,43 +1,63 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import { Link, usePathname, useRouter } from "expo-router";
 
-export default function BottomTabs() {
+interface Tab {
+  href: string;
+  label: string;
+  icon: string;
+  isAddRequest?: boolean; // Optional property to differentiate Add Request tab
+}
+
+const tabs: Tab[] = [
+  { href: "/", label: "Find", icon: "search" },
+  { href: "/favorites", label: "Favorites", icon: "star-outline" },
+  {
+    href: "/add-request",
+    label: "Add",
+    icon: "add-circle",
+    isAddRequest: true,
+  },
+  { href: "/my-ads", label: "My Ads", icon: "document-text-outline" },
+  { href: "/more", label: "More", icon: "menu-outline" },
+];
+
+const BottomTabs: React.FC = () => {
+  const pathname = usePathname();
+
   return (
     <View className="md:hidden flex flex-row justify-around items-center bg-white border-t border-gray-400 py-2">
-      <Link href="/" asChild>
-        <TouchableOpacity className="items-center">
-          <Ionicons name="search" size={24} color="#007AFF" />
-          <Text className="text-xs mt-1 text-blue-500">Find</Text>
-        </TouchableOpacity>
-      </Link>
+      {tabs.map((tab) => {
+        const isActive = pathname === tab.href;
+        const iconColor = isActive ? "#007AFF" : "gray";
+        const textColor = isActive ? "text-blue-500" : "text-gray-500";
 
-      <Link href="/favorites" asChild>
-        <TouchableOpacity className="items-center">
-          <Ionicons name="star-outline" size={24} color="gray" />
-          <Text className="text-xs mt-1 text-gray-500">Favorites</Text>
-        </TouchableOpacity>
-      </Link>
-      <Link href="/add-request" asChild>
-        <TouchableOpacity className="items-center justify-center">
-          <View className="bg-blue-400 w-14 h-14 border-2 border-yellow-600 rounded-full flex items-center justify-center">
-            <Text className="text-white text-3xl">+</Text>
-          </View>
-        </TouchableOpacity>
-      </Link>
-      <Link href="/my-ads" asChild>
-        <TouchableOpacity className="items-center">
-          <Ionicons name="document-text-outline" size={24} color="gray" />
-          <Text className="text-xs mt-1 text-gray-500">My Ads</Text>
-        </TouchableOpacity>
-      </Link>
-      <Link href="/more" asChild>
-        <TouchableOpacity className="items-center">
-          <Ionicons name="menu-outline" size={24} color="gray" />
-          <Text className="text-xs mt-1 text-gray-500">More</Text>
-        </TouchableOpacity>
-      </Link>
+        return (
+          <Link href={tab.href} key={tab.href} asChild>
+            <TouchableOpacity className="items-center">
+              {tab.isAddRequest ? (
+                <View className="bg-blue-400 w-14 h-14 border-2 border-yellow-600 rounded-full flex items-center justify-center">
+                  <Text className="text-white text-3xl">+</Text>
+                </View>
+              ) : (
+                <>
+                  <Ionicons
+                    name={tab.icon as any}
+                    size={24}
+                    color={iconColor}
+                  />
+                  <Text className={`text-md font-bold mt-1 ${textColor}`}>
+                    {tab.label}
+                  </Text>
+                </>
+              )}
+            </TouchableOpacity>
+          </Link>
+        );
+      })}
     </View>
   );
-}
+};
+
+export default BottomTabs;
