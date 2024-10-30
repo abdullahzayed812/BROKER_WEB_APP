@@ -19,35 +19,35 @@ export function FavoritesTabs() {
   };
 
   return (
-    <View className="w-full max-w-md mx-auto">
+    <View className="w-full max-w-md mx-auto px-1 my-8">
       <View className="flex-row border-b border-gray-200">
         <TouchableOpacity
-          className={`flex-1 py-2 px-4 items-center justify-center ${
-            activeTab === "Requests" ? "border-b-2 border-blue-500" : ""
+          className={`flex-1 py-2 px-4 rounded-lg items-center justify-center ${
+            activeTab === "Requests" ? "bg-blue-500" : "bg-white"
           }`}
           onPress={() => handleTabPress("Requests")}
         >
           <Text
             className={`${
               activeTab === "Requests"
-                ? "text-blue-500 font-medium"
-                : "text-gray-500"
+                ? "text-white font-medium"
+                : "text-blue-500"
             }`}
           >
             Requests
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          className={`flex-1 py-2 px-4 items-center justify-center ${
-            activeTab === "Inventory" ? "border-b-2 border-blue-500" : ""
+          className={`flex-1 py-2 px-4 rounded-lg items-center justify-center ${
+            activeTab === "Inventory" ? "bg-blue-500" : "bg-white"
           }`}
           onPress={() => handleTabPress("Inventory")}
         >
           <Text
             className={`${
               activeTab === "Inventory"
-                ? "text-blue-500 font-medium"
-                : "text-gray-500"
+                ? "text-white font-medium"
+                : "text-blue-500"
             }`}
           >
             Inventory

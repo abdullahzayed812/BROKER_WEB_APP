@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, Image, Pressable, Platform } from "react-native";
+import { View, Text, Image, Pressable, Platform, Switch } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { QuickMessageModal } from "../modals/QuickMessage";
 import { ContactStatus } from "./ContactStatus";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 
 export interface User {
   name: string;
@@ -41,19 +44,34 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
 }) => {
   const [showQuickMessageModal, setShowQuickMessageModal] = useState(false);
 
+  const renderRightActions = () => (
+    <View className="flex-row items-center">
+      <Pressable className="w-[80px] justify-center items-center bg-green_50 rounded-lg">
+        <Text className="text-lg font-bold text-green_500">Edit</Text>
+      </Pressable>
+      <Pressable className="w-[80px] justify-center items-center bg-green_500 rounded-lg">
+        <Text className="text-lg font-bold text-white">Delete</Text>
+      </Pressable>
+    </View>
+  );
+
   const renderTags = () => (
     <View className="flex-row">
-      <Text className="text-blue-600 font-semibold mr-2">{property.type}</Text>
+      <Text className="bg-gray_50 text-primary_500 font-semibold text-sm px-2 py-1 rounded-full mr-1">
+        {property.type}
+      </Text>
+
       <Text
-        className={`text-xs px-2 py-1 rounded-full mr-1 ${
+        className={`text-sm px-2 py-1 rounded-full mr-1 ${
           property.subType === "Buy"
-            ? "bg-purple-100 text-purple-600"
-            : "bg-orange-100 text-orange-600"
+            ? "bg-brown_50 text-brown_500"
+            : "bg-purple_50 text-purple_500"
         }`}
       >
         {property.subType}
       </Text>
-      <Text className="text-xs px-2 py-1 rounded-full bg-pink-100 text-pink-600">
+
+      <Text className="text-sm px-2 py-1 rounded-full bg-purple_50 text-purple_500">
         {property.tag}
       </Text>
     </View>
@@ -72,15 +90,31 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
 
   const renderPropertyDetails = () => (
     <View className="mt-2">
-      <View className="flex-row items-center">
-        <Ionicons name="home-outline" size={16} color="#6B7280" />
-        <Text className="text-sm font-semibold ml-2">
-          {property.property.type}{" "}
-          <Text className="font-normal text-gray-500">
-            {"\u{1F6CF}"} {property.property.bedrooms} {"\u{1F6BF}"}{" "}
-            {property.property.bathrooms}
+      <View className="flex-row items-center justify-between">
+        <View className="flex-row items-center">
+          <Ionicons name="home-outline" size={16} color="#6B7280" />
+          <Text className="text-sm font-semibold ml-2">
+            {property.property.type}{" "}
           </Text>
-        </Text>
+        </View>
+        <View className="flex-row items-center" style={{ gap: 12 }}>
+          <View className="flex-row items-center" style={{ gap: 4 }}>
+            <Text className="text-gray_500">{property.property.bathrooms}</Text>
+            <Ionicons
+              name="bed-outline"
+              size={Platform.OS !== "web" ? 22 : 10}
+              color="#6B7280"
+            />
+          </View>
+          <View className="flex-row items-center" style={{ gap: 4 }}>
+            <Text className="text-gray_500">{property.property.bedrooms}</Text>
+            <MaterialCommunityIcons
+              name="bathtub-outline"
+              size={24}
+              color="#6B7280"
+            />
+          </View>
+        </View>
       </View>
       <View className="flex-row items-center justify-between mt-1">
         <View className="flex-row items-center">
@@ -132,13 +166,13 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
         {property.matchedProperties} Matched properties
       </Text>
       <View className="flex-row">
-        {[1, 2, 3].map((_, index) => (
+        {/* {[1, 2, 3].map((_, index) => (
           <Image
             key={index}
             source={{ uri: "/placeholder.svg?height=24&width=24" }}
             className="w-6 h-6 rounded-full -ml-1 border border-white"
           />
-        ))}
+        ))} */}
         <View className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center -ml-1 border border-white">
           <Text className="text-xs text-gray-600">
             +{property.matchedProperties - 3}
@@ -167,52 +201,73 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
 
   const renderEditableButtons = () => (
     <View className="flex-row justify-between items-center mt-4">
-      <Pressable className="p-2">
-        <Ionicons name="create-outline" size={24} color="blue" />
-      </Pressable>
-      <Pressable className="p-2">
-        <Ionicons name="trash-outline" size={24} color="red" />
-      </Pressable>
-      <View className="flex-row items-center bg-gray-200 rounded-full p-1">
-        <View className="w-6 h-6 bg-blue-500 rounded-full" />
-        <Text className="ml-2 mr-1 text-sm font-semibold">ON</Text>
+      <View className="flex-row items-center" style={{ gap: 6 }}>
+        <Pressable className="p-3 rounded-lg bg-blue-50">
+          <Ionicons name="pencil-outline" size={24} color="blue" />
+        </Pressable>
+        <Pressable className="p-3 rounded-lg bg-red-50">
+          <Ionicons name="trash-outline" size={24} color="red" />
+        </Pressable>
       </View>
+
+      {renderSwitchButton()}
     </View>
   );
 
-  return (
-    <View className="bg-white rounded-lg shadow-md p-4 w-full max-w-sm">
-      <View className="flex-row justify-between items-start">
-        {renderTags()}
-        {isEditable ? (
-          <Ionicons name="share-social-outline" size={20} color="gray" />
-        ) : (
-          <View className="flex-row">
-            <Ionicons
-              name="star-outline"
-              size={20}
-              color="gold"
-              className="mr-2"
-            />
-            <Ionicons name="share-social-outline" size={20} color="gray" />
-          </View>
-        )}
-      </View>
-      {renderUserInfo()}
-      {renderPropertyDetails()}
-      {renderMatchedProperties()}
-      {isEditable ? renderEditableButtons() : renderActionButtons()}
-      {isContactStatus ? (
-        <ContactStatus date={"whatsapp"} method={"whatsapp"} />
-      ) : null}
+  const renderSwitchButton = () => {
+    const [isEnabled, setIsEnabled] = useState(false);
 
-      {showQuickMessageModal && (
-        <QuickMessageModal
-          isVisible={showQuickMessageModal}
-          onClose={() => setShowQuickMessageModal(false)}
+    const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+    return (
+      <View
+        className="flex-row items-center p-3 rounded-lg bg-white border border-blue-100"
+        style={{ gap: 8 }}
+      >
+        <Text className="text-lg">{isEnabled ? "ON" : "OFF"}</Text>
+        <Switch
+          trackColor={{ false: "#767577", true: "#81b0ff" }}
+          thumbColor={isEnabled ? "#fff" : "#fff"}
+          onValueChange={toggleSwitch}
+          value={isEnabled}
         />
-      )}
-    </View>
+      </View>
+    );
+  };
+
+  return (
+    <GestureHandlerRootView>
+      <Swipeable renderRightActions={renderRightActions}>
+        <View className="rounded-lg border border-gray-100 p-4 w-full max-w-sm">
+          <View className="flex-row justify-between items-start">
+            {renderTags()}
+            {isEditable ? (
+              <Ionicons name="share-social-outline" size={20} color="gray" />
+            ) : (
+              <View className="flex-row" style={{ gap: 8 }}>
+                <Text className="text-gray_500">1h</Text>
+                <Ionicons name="star-outline" size={20} />
+                <Ionicons name="share-social-outline" size={20} />
+              </View>
+            )}
+          </View>
+          {renderUserInfo()}
+          {renderPropertyDetails()}
+          {renderMatchedProperties()}
+          {isEditable ? renderEditableButtons() : renderActionButtons()}
+
+          {isContactStatus ? (
+            <ContactStatus date={"whatsapp"} method={"whatsapp"} />
+          ) : null}
+
+          {showQuickMessageModal && (
+            <QuickMessageModal
+              isVisible={showQuickMessageModal}
+              onClose={() => setShowQuickMessageModal(false)}
+            />
+          )}
+        </View>
+      </Swipeable>
+    </GestureHandlerRootView>
   );
 };
 

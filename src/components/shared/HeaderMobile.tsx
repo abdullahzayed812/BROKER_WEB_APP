@@ -52,9 +52,12 @@ export function HeaderMobile() {
 
   return (
     <>
-      <View className="md:hidden flex flex-row items-center justify-between p-4 bg-white">
+      <View
+        className="md:hidden flex flex-row items-center justify-between p-4"
+        style={{ gap: 4 }}
+      >
         <TouchableOpacity
-          className="flex-row items-center bg-blue-500 px-4 py-2 rounded-md"
+          className="flex-row items-center bg-primary_500 px-4 py-3 rounded-md"
           onPress={handleRequestsPress}
         >
           <Text className="text-white font-semibold mr-2">Requests</Text>
@@ -62,7 +65,8 @@ export function HeaderMobile() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          className="flex-row items-center"
+          className="flex-row items-center border px-4 py-3 rounded-lg border-gray-100"
+          style={{ gap: 8 }}
           onPress={handleRentPress}
         >
           <Text className="text-gray-700 mr-2">Rent</Text>
@@ -70,17 +74,23 @@ export function HeaderMobile() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          className="flex-row items-center"
+          className="flex-row items-center rounded-lg border px-4 py-3 border-gray-100"
+          style={{ gap: 6 }}
           onPress={handleLocationPress}
         >
           <Text className="text-gray-700 mr-2">Location</Text>
           <Ionicons name="chevron-down" size={18} color="gray" />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={handleMenuPress}>
+        <TouchableOpacity
+          className="border border-gray-100 p-2 rounded-lg"
+          onPress={handleMenuPress}
+        >
           <Ionicons name="filter" size={24} color="gray" />
         </TouchableOpacity>
       </View>
+
+      <View className="h-1 w-full bg-gray-100" />
 
       {isShowContentModalVisible ? (
         <ShowContentModal

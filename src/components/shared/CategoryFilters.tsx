@@ -10,7 +10,8 @@ export default function CategoryFilters() {
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      className="mb-12 p-4"
+      contentContainerStyle={{ paddingRight: 20 }}
+      className="mb-4 p-4"
     >
       {categories.map((category, index) => (
         <Pressable

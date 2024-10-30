@@ -6,6 +6,7 @@ import { generateList } from "@/utility";
 import { propertyItem } from "@/components/shared/PropertyList";
 import AppHeader from "@/components/shared/AppHeader";
 import { router } from "expo-router";
+import { HeaderMobile } from "@/components/shared/HeaderMobile";
 
 const FilterDropdown = ({ label }) => (
   <Pressable className="bg-white rounded-lg px-4 py-2 flex-row items-center">
@@ -16,21 +17,24 @@ const FilterDropdown = ({ label }) => (
 
 export default function ContactedRequestsPage() {
   return (
-    <View>
-      <View
-        className="flex-row flex-wrap justify-center py-4"
-        style={{ gap: 12 }}
-      >
-        {generateList(10, propertyItem).map((request) => (
-          <View className="w-full max-w-sm">
-            <PropertyCard
-              property={request}
-              isEditable={false}
-              isContactStatus
-            />
-          </View>
-        ))}
+    <>
+      <HeaderMobile />
+      <View>
+        <View
+          className="flex-row flex-wrap justify-center py-4"
+          style={{ gap: 12 }}
+        >
+          {generateList(10, propertyItem).map((request) => (
+            <View className="w-full max-w-sm">
+              <PropertyCard
+                property={request}
+                isEditable={false}
+                isContactStatus
+              />
+            </View>
+          ))}
+        </View>
       </View>
-    </View>
+    </>
   );
 }

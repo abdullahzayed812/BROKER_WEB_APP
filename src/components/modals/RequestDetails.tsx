@@ -1,10 +1,18 @@
 import React, { useState } from "react";
-import { View, Text, Image, ScrollView, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  Pressable,
+  TextInput,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ModalContainer } from "../shared/ModalContainer";
 import { Button } from "../shared/Button";
 import { RateBrokerModal } from "./RateBroker";
 import { ReportBrokerModal } from "./ReportBroker";
+import { QuickMessageModal } from "./QuickMessage";
 
 interface RequestDetailsModalProps {
   isVisible: boolean;
@@ -16,7 +24,7 @@ const requestDetails = {
     name: "Ahmed Radwan",
     company: "Coldwill Banker",
     rating: 4.5,
-    image: "/placeholder.svg?height=48&width=48",
+    image: "../../assets/image/userImage.png",
   },
   property: {
     rentOrBuy: "Rent",
@@ -44,52 +52,67 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
   isVisible,
   onClose,
 }) => {
-  const [viewMode, setViewMode] = useState<"text" | "table">("table");
+  const [viewMode, setViewMode] = useState<"text" | "table">("text");
   const [extraDetails, setExtraDetails] = useState(
     requestDetails.property.description
   );
   const [showRateModal, setShowRateModal] = useState(false);
   const [showReportBrokerModal, setShowReportBrokerModal] = useState(false);
+  const [showQuickMessageModal, setShowQuickMessageModal] = useState(false);
 
   const AgentInfo = () => (
-    <View className="flex-row items-center justify-between mb-4">
+    <View className="flex-row items-center justify-between mb-4 mt-8">
       <View className="flex-row items-center">
         <Image
-          source={{ uri: requestDetails.agent.image }}
+          source={require("../../assets/images/userImage.png")}
           className="w-12 h-12 rounded-full mr-3"
         />
-        <View>
-          <Text className="font-semibold text-lg md:text-xl">
-            {requestDetails.agent.name} @ {requestDetails.agent.company}
-          </Text>
-          <View className="flex-row items-center justify-between">
+        <View className="md:w-[400px] flex-1">
+          <View className="flex-row justify-between items-start">
+            <Text className="md:w-full w-[180px] font-semibold text-md md:text-xl">
+              {requestDetails.agent.name} @ {requestDetails.agent.company}
+            </Text>
+
+            <View className="flex-row items-center" style={{ gap: 8 }}>
+              <Text className="text-gray-500">1d</Text>
+
+              <Pressable onPress={() => {}}>
+                <Ionicons name="star-outline" size={18} color="#6B7280" />
+              </Pressable>
+
+              <Pressable>
+                <Ionicons
+                  name="share-social-outline"
+                  size={24}
+                  color="#6B7280"
+                />
+              </Pressable>
+            </View>
+          </View>
+
+          <View className="w-[220px] flex-row items-center justify-between">
             <View className="flex-row items-center">
               <Ionicons name="star" size={16} color="#FFD700" />
-              <Text className="ml-1 font-semibold">
+              <Text className="font-semibold">
                 {requestDetails.agent.rating}
               </Text>
             </View>
             <View className="flex-row items-center">
-              <Text className="text-gray-500 mr-2">1d</Text>
               <View className="flex-row items-center">
                 <Pressable
-                  className="mr-2"
-                  onPress={() => setShowRateModal(true)}
-                >
-                  <Ionicons name="star-outline" size={24} color="#6B7280" />
-                </Pressable>
-                <Pressable
-                  className="mr-2"
+                  className="mr-2 flex-row items-center"
                   onPress={() => setShowReportBrokerModal(true)}
                 >
-                  <Ionicons name="flag-outline" size={24} color="#6B7280" />
+                  <Ionicons name="flag-outline" size={18} color="#6B7280" />
+                  <Text className="text-md ml-2">Report</Text>
                 </Pressable>
-                <Pressable>
-                  <Ionicons
-                    name="share-social-outline"
-                    size={24}
-                    color="#6B7280"
-                  />
+
+                <Pressable
+                  className="mr-2 flex-row items-center"
+                  onPress={() => setShowRateModal(true)}
+                >
+                  <Ionicons name="star-outline" size={18} color="#6B7280" />
+                  <Text className="text-md ml-2">Rate</Text>
                 </Pressable>
               </View>
             </View>
@@ -100,12 +123,12 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
   );
 
   const ToggleView = () => (
-    <View className="flex-row mb-4 bg-gray-100 rounded-full p-1">
+    <View className="flex-row mb-4 bg-blue-50 rounded-lg mt-6 p-1">
       <Pressable
         onPress={() => setViewMode("text")}
         className={`flex-1 py-2 px-4 ${
           viewMode === "text" ? "bg-white" : ""
-        } items-center justify-center rounded-full`}
+        } items-center justify-center rounded-lg`}
       >
         <Text
           className={
@@ -121,7 +144,7 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
         onPress={() => setViewMode("table")}
         className={`flex-1 py-2 px-4 ${
           viewMode === "table" ? "bg-white" : ""
-        } items-center justify-center rounded-full`}
+        } items-center justify-center rounded-lg`}
       >
         <Text
           className={
@@ -138,23 +161,27 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
 
   const TextView = () => (
     <View>
-      <Text className="text-sm md:text-base text-gray-600 mb-4">
+      {/* <Text className="text-sm md:text-base text-gray-600 mb-4">
         Try out our new feature! Send a message to our WhatsApp number{" "}
         <Text className="text-green-500">+20 10 3000 4000</Text> to quickly post
         your request with our AI-powered text formatting.
-      </Text>
-      <View className="bg-green-100 rounded-lg p-4 mb-4">
+      </Text> */}
+      {/* <View className="bg-green-100 rounded-lg p-4 mb-4">
         <Text className="text-sm md:text-base">
           {requestDetails.property.description}
         </Text>
         <Text className="text-right text-gray-500 mt-2">10:10 PM ✓✓</Text>
-      </View>
+      </View> */}
+      <Image
+        source={require("../../assets/images/message.png")}
+        className="self-center"
+      />
     </View>
   );
 
   const TableView = () => (
     <View>
-      <View className="flex-row items-center bg-gray-100 rounded-lg p-3 mb-4">
+      {/* <View className="flex-row items-center bg-gray-100 rounded-lg p-3 mb-4">
         <Ionicons
           name="information-circle-outline"
           size={20}
@@ -167,7 +194,7 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
           <Text className="text-green-500">+20 10 3000 4000</Text>, using our
           AI-powered formatting.
         </Text>
-      </View>
+      </View> */}
       <View className="bg-blue-50 rounded-lg overflow-hidden mb-4">
         <View className="bg-blue-100 p-3">
           <Text className="font-semibold text-lg md:text-xl">Details</Text>
@@ -246,9 +273,14 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
         <Text className="font-semibold text-lg md:text-xl mb-2">
           Extra Details
         </Text>
-        <View className="bg-white rounded-lg p-4 border border-gray-200">
+        <TextInput
+          placeholder={extraDetails}
+          multiline
+          className="h-24 bg-gray-100 rounded-lg p-2"
+        />
+        {/* <View className="bg-white rounded-lg p-4 border border-gray-200">
           <Text className="text-gray-600">{extraDetails}</Text>
-        </View>
+        </View> */}
       </View>
       <View className="mb-4">
         <Text className="font-semibold text-lg md:text-xl mb-2">
@@ -268,52 +300,61 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
   );
 
   const TableRow = ({ icon, label, value }) => (
-    <View className="flex-row items-center mb-4">
-      <Ionicons name={icon} size={24} color="#6B7280" />
-      <Text className="text-gray-600 ml-3 w-32 md:text-base text-sm">
-        {label}
-      </Text>
-      <View className="flex-1">
-        {typeof value === "string" ? (
-          <Text className="md:text-base text-sm">{value}</Text>
-        ) : (
-          value
-        )}
+    <>
+      <View className="flex-row items-center">
+        <Ionicons name={icon} size={24} color="#6B7280" />
+        <Text className="text-gray-600 ml-3 w-32 md:text-base text-sm">
+          {label}
+        </Text>
+
+        <View className="h-full w-1 mx-4 bg-white" />
+
+        <View className="flex-1">
+          {typeof value === "string" ? (
+            <Text className="md:text-base text-sm">{value}</Text>
+          ) : (
+            value
+          )}
+        </View>
       </View>
-    </View>
+
+      {label ? <View className="h-1 w-full my-4 bg-white" /> : null}
+    </>
   );
 
   return (
     <>
       <ModalContainer isVisible={isVisible} onClose={onClose}>
-        <ScrollView className="bg-white" showsVerticalScrollIndicator={false}>
-          <View className="p-4">
-            <AgentInfo />
-            <ToggleView />
-            {viewMode === "text" ? <TextView /> : <TableView />}
-            <View className="mt-6 flex-row justify-between">
-              <Button
-                title="← Back"
-                onPress={onClose}
-                classes="bg-blue-100 py-3 px-6 rounded-full"
-                textClasses="text-blue-600 font-semibold"
-              />
-              <Button
-                title="Call"
-                onPress={() => console.log("Call")}
-                classes="bg-gray-200 py-3 px-6 rounded-full"
-                textClasses="text-gray-700 font-semibold"
-              />
-              <Button
-                title="WhatsApp"
-                onPress={() => console.log("WhatsApp")}
-                classes="bg-green-500 py-3 px-6 rounded-full flex-row items-center"
-                textClasses="text-white font-semibold mr-2"
-                //   icon={<Ionicons name="logo-whatsapp" size={20} color="white" />}
-              />
-            </View>
+        <View>
+          <AgentInfo />
+          <ToggleView />
+          {viewMode === "text" ? <TextView /> : <TableView />}
+          <View className="mt-6 flex-row justify-between">
+            <Button
+              onPress={onClose}
+              classes="bg-primary_50 py-4 px-6 rounded-lg"
+              textClasses="font-semibold"
+              icon="arrow-left"
+              iconColor="#0078FF"
+            />
+            <Button
+              title="Call"
+              onPress={() => console.log("Call")}
+              classes="bg-green_50 py-4 px-6 rounded-lg"
+              textClasses="text-green_500 font-semibold"
+              icon="phone"
+              iconColor="#50C36E"
+            />
+            <Button
+              title="WhatsApp"
+              onPress={() => setShowQuickMessageModal(true)}
+              classes="bg-green_500 py-4 px-6 rounded-lg flex-row items-center"
+              textClasses="text-white font-semibold mr-2"
+              icon="whatsapp"
+              iconColor="#FFF"
+            />
           </View>
-        </ScrollView>
+        </View>
       </ModalContainer>
 
       {showRateModal && (
@@ -328,6 +369,13 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
           }}
         />
       )}
+
+      {showQuickMessageModal ? (
+        <QuickMessageModal
+          isVisible={showQuickMessageModal}
+          onClose={() => setShowQuickMessageModal(false)}
+        />
+      ) : null}
 
       {showReportBrokerModal && (
         <ReportBrokerModal

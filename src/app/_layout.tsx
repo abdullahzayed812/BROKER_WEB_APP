@@ -8,32 +8,23 @@ import { useState } from "react";
 import Pagination from "@/components/shared/Pagination";
 import { HeaderMobile } from "@/components/shared/HeaderMobile";
 import AppHeader from "@/components/shared/AppHeader";
+import SaveButton from "@/components/shared/SaveButton";
 
 export default function Layout() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const pathname = usePathname();
 
-  const showHeaderMobile = pathname === "/" || pathname === "/contacts";
-  // const showAppHeader = pathname === "/contacts" || pathname === "/add-request";
-
   return (
     <>
-      <SafeAreaView className="flex-1 bg-gray-100">
-        {/* {showAppHeader ? (
-          <AppHeader
-            onBackPress={() => router.back()}
-            onNotificationPress={() => {}}
-            hasNotifications={false}
-          />
-        ) : null} */}
-
+      <SafeAreaView className="flex-1">
         <Header />
 
-        {showHeaderMobile ? <HeaderMobile /> : null}
-
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View className="md:w-[95%] bg-blue-50 md:self-center">
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 20 }}
+        >
+          <View className="md:w-[95%] bg-white md:self-center">
             <Slot />
 
             <Pagination
@@ -43,6 +34,10 @@ export default function Layout() {
             />
           </View>
         </ScrollView>
+
+        {pathname === "/" ? (
+          <SaveButton onPress={function (): void {}} />
+        ) : null}
 
         <BottomTabs />
       </SafeAreaView>

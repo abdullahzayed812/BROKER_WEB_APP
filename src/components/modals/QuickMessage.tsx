@@ -34,7 +34,11 @@ export const QuickMessageModal: React.FC<QuickMessageModalProps> = ({
   );
 
   return (
-    <ModalContainer isVisible={isVisible} onClose={onClose}>
+    <ModalContainer
+      isVisible={isVisible}
+      onClose={onClose}
+      isModalCenter={true}
+    >
       <Text className="text-xl font-bold mb-4">Quick Message</Text>
       {messageOptions.map((option) => (
         <RadioButton
@@ -44,21 +48,7 @@ export const QuickMessageModal: React.FC<QuickMessageModalProps> = ({
           onSelect={() => setSelectedOption(option)}
         />
       ))}
-      <Text className="font-semibold mt-4 mb-2">5 Matched Properties</Text>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        className="mb-4"
-      >
-        {matchedProperties.map((uri, index) => (
-          <Image
-            key={index}
-            source={{ uri }}
-            className="w-20 h-20 rounded-lg mr-2"
-          />
-        ))}
-      </ScrollView>
-      <View className="bg-gray-100 rounded-lg p-4 mb-4">
+      <View className="border border-gray_500 rounded-lg p-4 mb-4">
         <View className="flex-row justify-between mb-2">
           <Text className="text-gray-500">Generated Message</Text>
           <Ionicons name="close" size={20} color="gray" />
@@ -70,7 +60,12 @@ export const QuickMessageModal: React.FC<QuickMessageModalProps> = ({
           className="text-sm"
         />
       </View>
-      <Button title="Send Message" onPress={onClose} primary />
+      <Button
+        title="Send Message"
+        onPress={onClose}
+        classes="bg-green_500"
+        textClasses="text-white"
+      />
     </ModalContainer>
   );
 };

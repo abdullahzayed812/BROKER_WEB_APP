@@ -14,24 +14,17 @@ export default function SaveButton({
   return (
     <TouchableOpacity
       onPress={onPress}
-      className={`absolute w-[120px] flex-row items-center justify-center self-center px-4 py-2 rounded-full ${
-        saved ? "bg-blue-100" : "bg-white"
-      } border border-blue-500`}
+      className={`md:hidden flex absolute bottom-[90px] w-[120px] flex-row items-center justify-center self-center py-3 rounded-full border border-primary_500 bg-primary_50`}
       style={{
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 3,
+        gap: 12,
       }}
     >
       <Ionicons
         name={saved ? "heart" : "heart-outline"}
-        size={16}
-        color="#3B82F6"
-        style={{ marginRight: 4 }}
+        size={18}
+        color="#0078FF"
       />
-      <Text className="text-blue-500 font-medium">Save</Text>
+      <Text className="text-primary_500 font-semibold">Save</Text>
     </TouchableOpacity>
   );
 }

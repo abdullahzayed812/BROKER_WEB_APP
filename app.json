@@ -2,6 +2,7 @@
   "expo": {
     "scheme": "acme",
     "userInterfaceStyle": "automatic",
+    "developmentClient": true,
     "orientation": "default",
     "web": {
       "output": "static",
@@ -16,6 +17,21 @@
       ]
     ],
     "name": "broker-app",
-    "slug": "broker-app"
+    "slug": "broker-app",
+    "extra": {
+      "eas": {
+        "projectId": "251ab82f-7bdd-43c9-b590-bb66ad620550"
+      }
+    },
+    "android": {
+      "package": "com.abdullah_ibrahem_zayed.brokerapp"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/251ab82f-7bdd-43c9-b590-bb66ad620550"
+    },
+    "ios": {}
   }
 }

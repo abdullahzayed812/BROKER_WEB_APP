@@ -31,10 +31,12 @@ export function ShowContentModal({
       <View className="px-4 py-6">
         <Text className="text-2xl font-semibold mb-4">Show</Text>
         <View className="mb-4">
-          {["Requests", "Inventory", "Show All"].map((option, index) => (
+          {["Requests", "Inventory"].map((option, index) => (
             <TouchableOpacity
               key={index}
-              className="flex-row items-center py-3 border-b border-gray-200"
+              className={`flex-row items-center py-3 ${
+                option === "Requests" ? "bg-primary_50" : "bg-secondary_50"
+              } mb-3 rounded-lg p-2`}
               onPress={() =>
                 handleOptionChange(
                   option.toLowerCase().replace(" ", "") as FilterOption
@@ -52,7 +54,15 @@ export function ShowContentModal({
                   <View className="w-2 h-2 rounded-full bg-white" />
                 )}
               </View>
-              <Text className="text-base">{option}</Text>
+              <Text
+                className={`text-base ${
+                  option === "Requests"
+                    ? "text-primary_500"
+                    : "text-secondary_500"
+                }`}
+              >
+                {option}
+              </Text>
             </TouchableOpacity>
           ))}
         </View>

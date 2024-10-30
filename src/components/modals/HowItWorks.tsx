@@ -7,7 +7,6 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { ModalContainer } from "../shared/ModalContainer"; // Assuming this is the path to your ModalContainer component
 
 interface HowItWorksModalProps {
@@ -20,7 +19,6 @@ export default function HowItWorksModal({
   onClose,
 }: HowItWorksModalProps) {
   const [step, setStep] = useState(1);
-  const [adText, setAdText] = useState("");
 
   const renderStep2 = () => (
     <View className="p-4">
@@ -29,7 +27,7 @@ export default function HowItWorksModal({
       </Text>
       <Image
         source={require("@/assets/images/content1.png")}
-        className="w-full self-center h-40"
+        className="w-full self-center h-[300px]"
         resizeMode="contain"
       />
     </View>
@@ -42,7 +40,7 @@ export default function HowItWorksModal({
       </Text>
       <Image
         source={require("@/assets/images/content2.png")}
-        className="w-full self-center h-40"
+        className="w-full self-center h-[300px]"
         resizeMode="contain"
       />
     </View>
@@ -50,12 +48,9 @@ export default function HowItWorksModal({
 
   return (
     <ModalContainer isVisible={isVisible} onClose={onClose}>
-      <View className="bg-white rounded-t-3xl max-h-[90%]">
+      <View className="bg-white rounded-t-3xl ">
         <View className="flex-row justify-between items-center p-4 border-b border-gray-200">
           <Text className="text-xl font-semibold">How it works</Text>
-          <TouchableOpacity onPress={onClose}>
-            <Ionicons name="close" size={24} color="black" />
-          </TouchableOpacity>
         </View>
         <ScrollView>{step === 1 ? renderStep1() : renderStep2()}</ScrollView>
         <View className="flex-row justify-between p-4 border-t border-gray-200">

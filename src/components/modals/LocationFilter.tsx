@@ -83,13 +83,11 @@ export function LocationFilter({
 
   return (
     <ModalContainer isVisible={isVisible} onClose={onClose}>
-      <View className="flex-row justify-between items-center p-4 border-b border-gray-200">
-        <Text className="text-xl font-semibold">Find</Text>
-        <TouchableOpacity onPress={onClose}>
-          <Ionicons name="close" size={24} color="black" />
-        </TouchableOpacity>
+      <View>
+        <Text className="text-xl mb-8 font-semibold ">Find</Text>
       </View>
-      <View className="p-4">
+
+      <View>
         <View className="flex-row justify-between mb-4">
           {tabs.map((tab) => (
             <TouchableOpacity
@@ -154,7 +152,7 @@ export function LocationFilter({
                   neighborhoodType === "Neighborhood"
                     ? "bg-blue-500"
                     : "bg-gray-200"
-                } rounded-l-full`}
+                } rounded-l-lg`}
               >
                 <Text
                   className={`text-center ${
@@ -172,7 +170,7 @@ export function LocationFilter({
                   neighborhoodType === "Compound"
                     ? "bg-blue-500"
                     : "bg-gray-200"
-                } rounded-r-full`}
+                } rounded-r-lg`}
               >
                 <Text
                   className={`text-center ${

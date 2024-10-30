@@ -50,116 +50,114 @@ export default function CreateAdPage() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <ScrollView>
-        <View className="p-4">
-          {/* Header */}
+    <ScrollView>
+      <View className="p-4 bg-white">
+        {/* Header */}
 
-          <View className="md:w-[50%] md:self-start">
-            {/* Ad Type Selection */}
-            <View className="flex-row bg-gray-100 rounded-lg p-1 mb-6">
-              <TouchableOpacity
-                className={`flex-1 py-2 rounded-md ${
-                  adType === "Request" ? "bg-white" : ""
+        <View className="md:w-[50%] md:self-start">
+          {/* Ad Type Selection */}
+          <Text className="font-semibold text-lg text-gray-600 my-4">
+            Ad Type
+          </Text>
+          <View className="flex-row bg-blue-100 rounded-lg p-1 mb-6">
+            <TouchableOpacity
+              className={`flex-1 py-2 rounded-md ${
+                adType === "Request" ? "bg-white" : ""
+              }`}
+              onPress={() => setAdType("Request")}
+            >
+              <Text
+                className={`text-center ${
+                  adType === "Request" ? "text-blue-500" : "text-gray-500"
                 }`}
-                onPress={() => setAdType("Request")}
               >
-                <Text
-                  className={`text-center ${
-                    adType === "Request" ? "text-blue-500" : "text-gray-500"
-                  }`}
-                >
-                  Request
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                className={`flex-1 py-2 rounded-md ${
-                  adType === "Inventory" ? "bg-white" : ""
+                Request
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className={`flex-1 py-2 rounded-md ${
+                adType === "Inventory" ? "bg-white" : ""
+              }`}
+              onPress={() => setAdType("Inventory")}
+            >
+              <Text
+                className={`text-center ${
+                  adType === "Inventory" ? "text-blue-500" : "text-gray-500"
                 }`}
-                onPress={() => setAdType("Inventory")}
               >
-                <Text
-                  className={`text-center ${
-                    adType === "Inventory" ? "text-blue-500" : "text-gray-500"
-                  }`}
-                >
-                  Inventory
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* Visibility Options */}
-            <Text className="mb-2">Show as</Text>
-            <View className="flex-row mb-6">
-              <TouchableOpacity
-                className="flex-row items-center mr-6"
-                onPress={() => setVisibility("Internal")}
-              >
-                <RadioButton selected={visibility === "Internal"} />
-                <Text className="ml-2">Internal</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                className="flex-row items-center"
-                onPress={() => setVisibility("Public")}
-              >
-                <RadioButton selected={visibility === "Public"} />
-                <Text className="ml-2">Public</Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* Ad Creation Method */}
-            <Text className="mb-2">How do you want to add your Ad?</Text>
-            <View className="flex-row mb-6">
-              <TouchableOpacity
-                className="flex-row items-center mr-6"
-                onPress={() => setAdMethod("Paste Text")}
-              >
-                <RadioButton selected={adMethod === "Paste Text"} />
-                <Text className="ml-2">Paste Text</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                className="flex-row items-center"
-                onPress={() => setAdMethod("Fill Details")}
-              >
-                <RadioButton selected={adMethod === "Fill Details"} />
-                <Text className="ml-2">Fill Details</Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* Paste Text Area */}
-            <View className="mb-6">
-              <View className="flex-row justify-between mb-2">
-                <Text>Paste Text (English/عربي)</Text>
-                <TouchableOpacity onPress={() => setShowHowItWorksModal(true)}>
-                  <Text className="text-blue-500">How it works</Text>
-                </TouchableOpacity>
-              </View>
-              <TextInput
-                className="border border-gray-300 rounded-lg p-2 h-24"
-                multiline
-                placeholder="Example: For rent Ground floor apartment 200 m2 in Eastown - Sodic, 3 mins to gate 1 (monorail station) and 2 minutes to the club house..."
-                value={adText}
-                onChangeText={setAdText}
-              />
-            </View>
+                Inventory
+              </Text>
+            </TouchableOpacity>
           </View>
 
-          {showHowItWorksModal ? (
-            <HowItWorksModal
-              isVisible={showHowItWorksModal}
-              onClose={() => setShowHowItWorksModal(false)}
-            />
-          ) : null}
+          {/* Visibility Options */}
+          <Text className="mb-2">Show as</Text>
+          <View className="flex-row mb-6">
+            <TouchableOpacity
+              className="flex-row items-center mr-6"
+              onPress={() => setVisibility("Internal")}
+            >
+              <RadioButton selected={visibility === "Internal"} />
+              <Text className="ml-2">Internal</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="flex-row items-center"
+              onPress={() => setVisibility("Public")}
+            >
+              <RadioButton selected={visibility === "Public"} />
+              <Text className="ml-2">Public</Text>
+            </TouchableOpacity>
+          </View>
 
-          <Image
-            source={require("@/assets/images/vertical-line.png")}
-            className="self-center md:my-16 my-8"
+          {/* Ad Creation Method */}
+          <Text className="mb-2">How do you want to add your Ad?</Text>
+          <View className="flex-row mb-6">
+            <TouchableOpacity
+              className="flex-row items-center mr-6"
+              onPress={() => setAdMethod("Paste Text")}
+            >
+              <RadioButton selected={adMethod === "Paste Text"} />
+              <Text className="ml-2">Paste Text</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="flex-row items-center"
+              onPress={() => setAdMethod("Fill Details")}
+            >
+              <RadioButton selected={adMethod === "Fill Details"} />
+              <Text className="ml-2">Fill Details</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Paste Text Area */}
+          <View className="mb-6">
+            <View className="flex-row justify-between mb-2">
+              <Text>Paste Text (English/عربي)</Text>
+              <TouchableOpacity onPress={() => setShowHowItWorksModal(true)}>
+                <Text className="text-blue-500">How it works</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+        {showHowItWorksModal ? (
+          <HowItWorksModal
+            isVisible={showHowItWorksModal}
+            onClose={() => setShowHowItWorksModal(false)}
           />
+        ) : null}
 
+        {adMethod === "Paste Text" ? (
+          <Image
+            source={require("../assets/images/message.png")}
+            className="my-4 self-center"
+          />
+        ) : (
           <View className="md:w-[50%] md:self-end">
             {/* Details Section */}
-            <View className="bg-blue-50 rounded-lg p-4 mb-6">
-              <Text className="font-semibold mb-4">Details</Text>
+            <View className="bg-white rounded-lg p-4 mb-6">
+              <Text className="font-semibold mb-4 bg-blue-50 py-6 px-2 rounded-tl-lg rounded-tr-lg">
+                Details
+              </Text>
 
               <GenericDropdown
                 label="Rent or Buy"
@@ -177,7 +175,15 @@ export default function CreateAdPage() {
                 placeholder="Select Type"
               />
 
-              <View className="flex-row justify-between items-center mb-4">
+              <GenericDropdown
+                label="Status"
+                options={typeOptions}
+                selectedValue={type}
+                onSelect={(value) => setType(value)}
+                placeholder="Select Type"
+              />
+
+              {/* <View className="flex-row justify-between items-center mb-4">
                 <View className="flex-row items-center">
                   <Ionicons
                     name="information-circle-outline"
@@ -190,7 +196,7 @@ export default function CreateAdPage() {
                   <Text className="mr-2">{status}</Text>
                   <Ionicons name="chevron-down" size={20} color="gray" />
                 </TouchableOpacity>
-              </View>
+              </View> */}
 
               <View className="flex-row justify-between items-center mb-4">
                 <View className="flex-row items-center">
@@ -232,7 +238,7 @@ export default function CreateAdPage() {
                   </TouchableOpacity>
                   <Text className="mx-4">{bedrooms}</Text>
                   <TouchableOpacity onPress={() => setBedrooms(bedrooms + 1)}>
-                    <Ionicons name="add-circle" size={24} color="blue" />
+                    <Ionicons name="add-circle" size={24} />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -251,7 +257,7 @@ export default function CreateAdPage() {
                   </TouchableOpacity>
                   <Text className="mx-4">{bathrooms}</Text>
                   <TouchableOpacity onPress={() => setBathrooms(bathrooms + 1)}>
-                    <Ionicons name="add-circle" size={24} color="blue" />
+                    <Ionicons name="add-circle" size={24} />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -279,16 +285,18 @@ export default function CreateAdPage() {
                 onChangeText={setExtraDetails}
               />
             </View>
-          </View>
-        </View>
-      </ScrollView>
 
-      {/* Submit Button */}
-      <View className="p-4">
-        <TouchableOpacity className="bg-blue-500 py-4 rounded-lg items-center">
-          <Text className="text-white text-lg font-semibold">Create Ad</Text>
-        </TouchableOpacity>
+            {/* Submit Button */}
+            <View>
+              <TouchableOpacity className="bg-blue-500 py-4 rounded-lg items-center">
+                <Text className="text-white text-lg font-semibold">
+                  Create Ad
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 }

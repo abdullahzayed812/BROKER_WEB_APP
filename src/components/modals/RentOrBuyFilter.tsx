@@ -34,10 +34,10 @@ export function RentOrBuyFilterModal({
 
   return (
     <ModalContainer isVisible={isVisible} onClose={onClose}>
-      <View className="p-6">
+      <View>
         <Text className="text-2xl font-semibold mb-6">Rent or Buy</Text>
 
-        <View className="flex-row mb-6 bg-gray-100 rounded-lg p-1">
+        <View className="flex-row mb-12 bg-primary_50 rounded-lg p-1">
           <TouchableOpacity
             onPress={() => handleTypeChange("rent")}
             className={`flex-1 py-3 rounded-md ${
@@ -70,10 +70,10 @@ export function RentOrBuyFilterModal({
           </TouchableOpacity>
         </View>
 
-        <View className="mb-8">
+        <View className="flex-row items-center mb-8" style={{ gap: 38 }}>
           <TouchableOpacity
             onPress={() => handleDurationChange("long")}
-            className="flex-row items-center mb-4"
+            className="flex-row items-center"
           >
             <View
               className={`w-6 h-6 rounded-full border-2 ${
@@ -108,7 +108,7 @@ export function RentOrBuyFilterModal({
         </View>
 
         <TouchableOpacity
-          className="bg-blue-500 py-4 rounded-lg"
+          className="bg-blue-500 py-4 rounded-lg mt-16"
           onPress={handleApply}
         >
           <Text className="text-white text-center text-lg font-semibold">

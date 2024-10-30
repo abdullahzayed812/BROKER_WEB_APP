@@ -29,7 +29,7 @@ export default function PropertyList({
   const [showRequestDetailsModal, setShowRequestDetailsModal] = useState(false);
 
   return (
-    <View className="flex-row flex-wrap justify-center" style={{ gap: 16 }}>
+    <View className="flex-row flex-wrap justify-center" style={{ gap: 8 }}>
       {generateList(10, propertyItem).map((property, index) => (
         <Pressable
           key={index}

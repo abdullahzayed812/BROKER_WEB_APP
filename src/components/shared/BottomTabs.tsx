@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Link, usePathname, useRouter } from "expo-router";
+import { Link, usePathname } from "expo-router";
 
 interface Tab {
   href: string;
@@ -27,18 +27,20 @@ const BottomTabs: React.FC = () => {
   const pathname = usePathname();
 
   return (
-    <View className="md:hidden flex flex-row justify-around items-center bg-white border-t border-gray-400 py-2">
+    <View className="md:hidden flex rounded-tl-2lg rounded-tr-2xl h-[80px] flex-row justify-around items-center shadow shadow-primary_500">
       {tabs.map((tab) => {
         const isActive = pathname === tab.href;
         const iconColor = isActive ? "#007AFF" : "gray";
-        const textColor = isActive ? "text-blue-500" : "text-gray-500";
+        const textColor = isActive
+          ? "text-blue-500 font-bold"
+          : "text-gray-500";
 
         return (
           <Link href={tab.href} key={tab.href} asChild>
             <TouchableOpacity className="items-center">
               {tab.isAddRequest ? (
-                <View className="bg-blue-400 w-14 h-14 border-2 border-yellow-600 rounded-full flex items-center justify-center">
-                  <Text className="text-white text-3xl">+</Text>
+                <View className="bg-primary_500 w-16 h-16 border-4 border-secondary_500 rounded-full flex items-center justify-center">
+                  <Text className="text-white font-semibold text-4xl">+</Text>
                 </View>
               ) : (
                 <>
@@ -47,7 +49,7 @@ const BottomTabs: React.FC = () => {
                     size={24}
                     color={iconColor}
                   />
-                  <Text className={`text-md font-bold mt-1 ${textColor}`}>
+                  <Text className={`text-sm font-semibold mt-1 ${textColor}`}>
                     {tab.label}
                   </Text>
                 </>

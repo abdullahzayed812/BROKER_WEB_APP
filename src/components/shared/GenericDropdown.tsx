@@ -38,12 +38,12 @@ export default function GenericDropdown<T>({
 
   return (
     <View className="flex-row items-center flex-1">
-      <Text className="flex-1 text-sm font-medium text-gray-700 mb-1">
+      <Text className="flex-1 text-md font-medium text-gray-700 mb-1">
         {label}
       </Text>
       <TouchableOpacity
         onPress={toggleDropdown}
-        className="flex-1 flex-row items-center justify-between bg-white border border-gray-300 rounded-md px-3 py-2"
+        className="flex-1 flex-row items-center justify-between bg-white  px-3 py-2"
       >
         <Text
           className={`${selectedValue ? "text-gray-900" : "text-gray-500"}`}
