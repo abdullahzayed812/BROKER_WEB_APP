@@ -20,9 +20,10 @@ const RequestsSummary: React.FC<RequestsSummaryProps> = ({
 
   return (
     <>
-      <View className="flex-row justify-between items-center px-6 mb-8">
+      <View className="flex-row justify-between items-center px-6 mb-4">
         <Text className="md:text-lg text-[12px] md:font-semibold text-gray_700">
-          <Text className="text-md font-bold">2,457 </Text> Requests
+          <Text className="text-[14px] text-gray_900 font-bold">2,457 </Text>{" "}
+          Requests
         </Text>
 
         <View className="flex-row items-center" style={{ gap: 12 }}>

@@ -9,6 +9,7 @@ interface DropdownProps<T> {
   onSelect: (item: T) => void;
   displayProperty?: keyof T;
   placeholder?: string;
+  icon?: any;
 }
 
 export default function GenericDropdown<T>({
@@ -18,6 +19,7 @@ export default function GenericDropdown<T>({
   onSelect,
   displayProperty,
   placeholder = "Select an option",
+  icon,
 }: DropdownProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -38,9 +40,12 @@ export default function GenericDropdown<T>({
 
   return (
     <View className="flex-row items-center flex-1">
+      {icon}
+
       <Text className="flex-1 text-md font-medium text-gray-700 mb-1">
         {label}
       </Text>
+
       <TouchableOpacity
         onPress={toggleDropdown}
         className="flex-1 flex-row items-center justify-between bg-white  px-3 py-2"
@@ -61,7 +66,8 @@ export default function GenericDropdown<T>({
         <TouchableOpacity
           activeOpacity={1}
           onPress={() => setIsOpen(false)}
-          className="flex-1 bg-black bg-opacity-50"
+          className="flex-1"
+          style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
         >
           <View className="bg-white rounded-t-lg mt-auto">
             <ScrollView className="max-h-80">

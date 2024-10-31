@@ -27,7 +27,7 @@ const BottomTabs: React.FC = () => {
   const pathname = usePathname();
 
   return (
-    <View className="md:hidden flex rounded-tl-2lg rounded-tr-2xl h-[80px] flex-row justify-around items-center shadow shadow-primary_500">
+    <View className="md:hidden flex rounded-tl-2xl rounded-tr-2xl h-[80px] flex-row justify-around items-center border border-t-primary_500">
       {tabs.map((tab) => {
         const isActive = pathname === tab.href;
         const iconColor = isActive ? "#007AFF" : "gray";

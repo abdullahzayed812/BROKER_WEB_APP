@@ -6,6 +6,7 @@ import { QuickMessageModal } from "../modals/QuickMessage";
 import { ContactStatus } from "./ContactStatus";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
+import { SwitchButton } from "./SwitchButton";
 
 export interface User {
   name: string;
@@ -99,28 +100,28 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
         </View>
         <View className="flex-row items-center" style={{ gap: 12 }}>
           <View className="flex-row items-center" style={{ gap: 4 }}>
-            <Text className="text-gray_500">{property.property.bathrooms}</Text>
             <Ionicons
               name="bed-outline"
-              size={Platform.OS !== "web" ? 22 : 10}
+              size={Platform.OS !== "web" ? 18 : 3}
               color="#6B7280"
             />
+            <Text className="text-gray_500">{property.property.bathrooms}</Text>
           </View>
           <View className="flex-row items-center" style={{ gap: 4 }}>
-            <Text className="text-gray_500">{property.property.bedrooms}</Text>
             <MaterialCommunityIcons
               name="bathtub-outline"
-              size={24}
+              size={Platform.OS !== "web" ? 18 : 3}
               color="#6B7280"
             />
+            <Text className="text-gray_500">{property.property.bedrooms}</Text>
           </View>
         </View>
       </View>
-      <View className="flex-row items-center justify-between mt-1">
+      <View className="flex-row items-center justify-between">
         <View className="flex-row items-center">
           <Ionicons name="location-outline" size={16} color="#6B7280" />
-          <Text className="text-sm text-gray-600 ml-2">
-            {property.location} <Text className="text-blue-500">+2 more</Text>
+          <Text className="text-sm font-semibold ml-2">
+            {property.location} <Text className="text-blue-500">+2</Text>
           </Text>
         </View>
         {Platform.OS !== "web" ? renderPrice() : null}
@@ -152,8 +153,9 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
   );
 
   const renderPrice = () => (
-    <Text className="self-end text-lg font-bold text-blue-600 mt-2">
-      BOT {property.price}
+    <Text className="self-end text-lg font-bold text-blue-600 ">
+      <Text className="text-[12px] text-gray_500">installments</Text>{" "}
+      {property.price}
       {isEditable && (
         <Text className="text-sm font-normal text-gray-500"> Monthly</Text>
       )}
@@ -166,13 +168,6 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
         {property.matchedProperties} Matched properties
       </Text>
       <View className="flex-row">
-        {/* {[1, 2, 3].map((_, index) => (
-          <Image
-            key={index}
-            source={{ uri: "/placeholder.svg?height=24&width=24" }}
-            className="w-6 h-6 rounded-full -ml-1 border border-white"
-          />
-        ))} */}
         <View className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center -ml-1 border border-white">
           <Text className="text-xs text-gray-600">
             +{property.matchedProperties - 3}
@@ -218,56 +213,48 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
     const [isEnabled, setIsEnabled] = useState(false);
 
     const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
     return (
       <View
         className="flex-row items-center p-3 rounded-lg bg-white border border-blue-100"
         style={{ gap: 8 }}
       >
         <Text className="text-lg">{isEnabled ? "ON" : "OFF"}</Text>
-        <Switch
-          trackColor={{ false: "#767577", true: "#81b0ff" }}
-          thumbColor={isEnabled ? "#fff" : "#fff"}
-          onValueChange={toggleSwitch}
-          value={isEnabled}
-        />
+        <SwitchButton value={isEnabled} onValueChange={toggleSwitch} />
       </View>
     );
   };
 
   return (
-    <GestureHandlerRootView>
-      <Swipeable renderRightActions={renderRightActions}>
-        <View className="rounded-lg border border-gray-100 p-4 w-full max-w-sm">
-          <View className="flex-row justify-between items-start">
-            {renderTags()}
-            {isEditable ? (
-              <Ionicons name="share-social-outline" size={20} color="gray" />
-            ) : (
-              <View className="flex-row" style={{ gap: 8 }}>
-                <Text className="text-gray_500">1h</Text>
-                <Ionicons name="star-outline" size={20} />
-                <Ionicons name="share-social-outline" size={20} />
-              </View>
-            )}
+    <View className="rounded-lg border border-gray-100 p-4 w-full max-w-sm">
+      <View className="flex-row justify-between items-start">
+        {renderTags()}
+        {isEditable ? (
+          <Ionicons name="share-social-outline" size={20} color="gray" />
+        ) : (
+          <View className="flex-row" style={{ gap: 8 }}>
+            <Text className="text-gray_500">1h</Text>
+            <Ionicons name="star-outline" size={20} />
+            <Ionicons name="share-social-outline" size={20} />
           </View>
-          {renderUserInfo()}
-          {renderPropertyDetails()}
-          {renderMatchedProperties()}
-          {isEditable ? renderEditableButtons() : renderActionButtons()}
+        )}
+      </View>
+      {renderUserInfo()}
+      {renderPropertyDetails()}
+      {renderMatchedProperties()}
+      {isEditable ? renderEditableButtons() : renderActionButtons()}
 
-          {isContactStatus ? (
-            <ContactStatus date={"whatsapp"} method={"whatsapp"} />
-          ) : null}
+      {isContactStatus ? (
+        <ContactStatus date={"whatsapp"} method={"whatsapp"} />
+      ) : null}
 
-          {showQuickMessageModal && (
-            <QuickMessageModal
-              isVisible={showQuickMessageModal}
-              onClose={() => setShowQuickMessageModal(false)}
-            />
-          )}
-        </View>
-      </Swipeable>
-    </GestureHandlerRootView>
+      {showQuickMessageModal && (
+        <QuickMessageModal
+          isVisible={showQuickMessageModal}
+          onClose={() => setShowQuickMessageModal(false)}
+        />
+      )}
+    </View>
   );
 };
 

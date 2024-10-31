@@ -4,6 +4,7 @@ import { Property, PropertyCard } from "./PropertyCard";
 import { RequestDetailsModal } from "../modals/RequestDetails";
 import { generateList } from "@/utility";
 import { SwipeCard } from "./SwipeCard";
+import { router } from "expo-router";
 
 export const propertyItem: Property = {
   id: 1,
@@ -34,7 +35,11 @@ export default function PropertyList({
         <Pressable
           key={index}
           className="w-full max-w-sm"
-          onPress={() => setShowRequestDetailsModal(true)}
+          onPress={() =>
+            isEditableCard
+              ? router.navigate("/edit-request")
+              : setShowRequestDetailsModal(true)
+          }
         >
           <PropertyCard
             key={property.id}

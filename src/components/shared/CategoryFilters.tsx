@@ -1,7 +1,32 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { ScrollView, Pressable, Text } from "react-native";
+import Feather from "@expo/vector-icons/Feather";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
-const categories = ["Show: All", "For you", "Urgent", "Resale", "Rent"];
+const categories: { name: string; icon: ReactNode }[] = [
+  { name: "Show: All", icon: "" },
+  {
+    name: "For you",
+    icon: (
+      <MaterialCommunityIcons name="pencil-ruler" size={14} color="black" />
+    ),
+  },
+  {
+    name: "Urgent",
+    icon: (
+      <MaterialCommunityIcons
+        name="information-outline"
+        size={14}
+        color="black"
+      />
+    ),
+  },
+  {
+    name: "Resale",
+    icon: <Feather name="divide-square" size={14} color="black" />,
+  },
+  { name: "Rent", icon: "" },
+];
 
 export default function CategoryFilters() {
   const [activeCategory, setActiveCategory] = useState<string>("Show: All");
@@ -11,17 +36,19 @@ export default function CategoryFilters() {
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{ paddingRight: 20 }}
-      className="mb-4 p-4"
+      className=" p-4"
     >
       {categories.map((category, index) => (
         <Pressable
           key={index}
-          onPress={() => setActiveCategory(category)}
-          className={`self-start ${
-            activeCategory === category ? "bg-blue-50" : "bg-white"
+          onPress={() => setActiveCategory(category.name)}
+          className={`flex-row items-center ${
+            activeCategory === category.name ? "bg-blue-50" : "bg-white"
           } px-4 py-2 rounded-lg mr-2 border border-gray-300`}
+          style={{ gap: 8 }}
         >
-          <Text>{category}</Text>
+          {category.icon ? <Text>{category.icon}</Text> : null}
+          <Text className="text-[12px] font-normal">{category.name}</Text>
         </Pressable>
       ))}
     </ScrollView>

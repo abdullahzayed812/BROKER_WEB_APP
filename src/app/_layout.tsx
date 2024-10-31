@@ -1,14 +1,13 @@
 import { ScrollView, Text, View } from "react-native";
-import "../global.css";
-import { Slot, router, useLocalSearchParams, usePathname } from "expo-router";
+import { Slot, useLocalSearchParams, usePathname } from "expo-router";
 import BottomTabs from "@/components/shared/BottomTabs";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/components/shared/Header";
 import { useState } from "react";
 import Pagination from "@/components/shared/Pagination";
-import { HeaderMobile } from "@/components/shared/HeaderMobile";
-import AppHeader from "@/components/shared/AppHeader";
 import SaveButton from "@/components/shared/SaveButton";
+
+import "../global.css";
 
 export default function Layout() {
   const [currentPage, setCurrentPage] = useState(1);

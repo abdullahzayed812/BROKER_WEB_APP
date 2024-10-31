@@ -69,9 +69,25 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
         />
         <View className="md:w-[400px] flex-1">
           <View className="flex-row justify-between items-start">
-            <Text className="md:w-full w-[180px] font-semibold text-md md:text-xl">
-              {requestDetails.agent.name} @ {requestDetails.agent.company}
-            </Text>
+            <View className="flex-row items-start">
+              <Text className="md:w-full font-semibold text-md md:text-xl">
+                {[
+                  requestDetails.agent.name,
+                  " @ ",
+                  requestDetails.agent.company,
+                ]
+                  .join("")
+                  .substring(0, 7)}
+                ...
+              </Text>
+
+              <View className="flex-row items-center ml-3">
+                <Ionicons name="star" size={16} color="#FFD700" />
+                <Text className="font-semibold">
+                  {requestDetails.agent.rating}
+                </Text>
+              </View>
+            </View>
 
             <View className="flex-row items-center" style={{ gap: 8 }}>
               <Text className="text-gray-500">1d</Text>
@@ -89,34 +105,6 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
               </Pressable>
             </View>
           </View>
-
-          <View className="w-[220px] flex-row items-center justify-between">
-            <View className="flex-row items-center">
-              <Ionicons name="star" size={16} color="#FFD700" />
-              <Text className="font-semibold">
-                {requestDetails.agent.rating}
-              </Text>
-            </View>
-            <View className="flex-row items-center">
-              <View className="flex-row items-center">
-                <Pressable
-                  className="mr-2 flex-row items-center"
-                  onPress={() => setShowReportBrokerModal(true)}
-                >
-                  <Ionicons name="flag-outline" size={18} color="#6B7280" />
-                  <Text className="text-md ml-2">Report</Text>
-                </Pressable>
-
-                <Pressable
-                  className="mr-2 flex-row items-center"
-                  onPress={() => setShowRateModal(true)}
-                >
-                  <Ionicons name="star-outline" size={18} color="#6B7280" />
-                  <Text className="text-md ml-2">Rate</Text>
-                </Pressable>
-              </View>
-            </View>
-          </View>
         </View>
       </View>
     </View>
@@ -126,15 +114,15 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
     <View className="flex-row mb-4 bg-blue-50 rounded-lg mt-6 p-1">
       <Pressable
         onPress={() => setViewMode("text")}
-        className={`flex-1 py-2 px-4 ${
+        className={`flex-1 p-4 ${
           viewMode === "text" ? "bg-white" : ""
         } items-center justify-center rounded-lg`}
       >
         <Text
           className={
             viewMode === "text"
-              ? "text-blue-500 font-semibold md:text-base text-sm"
-              : "text-gray-700 md:text-base text-sm"
+              ? "text-blue-500 font-semibold md:text-base text-md"
+              : "text-gray-700 md:text-base text-md"
           }
         >
           Text
@@ -142,15 +130,15 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
       </Pressable>
       <Pressable
         onPress={() => setViewMode("table")}
-        className={`flex-1 py-2 px-4 ${
+        className={`flex-1 p-4 ${
           viewMode === "table" ? "bg-white" : ""
         } items-center justify-center rounded-lg`}
       >
         <Text
           className={
             viewMode === "table"
-              ? "text-blue-500 font-semibold md:text-base text-sm"
-              : "text-gray-700 md:text-base text-sm"
+              ? "text-blue-500 font-semibold md:text-base text-md"
+              : "text-gray-700 md:text-base text-md"
           }
         >
           Table with AI
@@ -161,17 +149,6 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
 
   const TextView = () => (
     <View>
-      {/* <Text className="text-sm md:text-base text-gray-600 mb-4">
-        Try out our new feature! Send a message to our WhatsApp number{" "}
-        <Text className="text-green-500">+20 10 3000 4000</Text> to quickly post
-        your request with our AI-powered text formatting.
-      </Text> */}
-      {/* <View className="bg-green-100 rounded-lg p-4 mb-4">
-        <Text className="text-sm md:text-base">
-          {requestDetails.property.description}
-        </Text>
-        <Text className="text-right text-gray-500 mt-2">10:10 PM ✓✓</Text>
-      </View> */}
       <Image
         source={require("../../assets/images/message.png")}
         className="self-center"
@@ -181,25 +158,11 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
 
   const TableView = () => (
     <View>
-      {/* <View className="flex-row items-center bg-gray-100 rounded-lg p-3 mb-4">
-        <Ionicons
-          name="information-circle-outline"
-          size={20}
-          color="#6B7280"
-          className="mr-2"
-        />
-        <Text className="text-sm md:text-base text-gray-600">
-          This formatted table was created from the original text sent to our
-          WhatsApp number{" "}
-          <Text className="text-green-500">+20 10 3000 4000</Text>, using our
-          AI-powered formatting.
-        </Text>
-      </View> */}
-      <View className="bg-blue-50 rounded-lg overflow-hidden mb-4">
-        <View className="bg-blue-100 p-3">
+      <View className="rounded-lg overflow-hidden mb-4">
+        <View className="bg-primary_50 p-3">
           <Text className="font-semibold text-lg md:text-xl">Details</Text>
         </View>
-        <View className="p-4">
+        <View className="">
           <TableRow
             icon="business-outline"
             label="Rent or Buy"
@@ -278,9 +241,6 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
           multiline
           className="h-24 bg-gray-100 rounded-lg p-2"
         />
-        {/* <View className="bg-white rounded-lg p-4 border border-gray-200">
-          <Text className="text-gray-600">{extraDetails}</Text>
-        </View> */}
       </View>
       <View className="mb-4">
         <Text className="font-semibold text-lg md:text-xl mb-2">
@@ -301,15 +261,17 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
 
   const TableRow = ({ icon, label, value }) => (
     <>
-      <View className="flex-row items-center">
-        <Ionicons name={icon} size={24} color="#6B7280" />
-        <Text className="text-gray-600 ml-3 w-32 md:text-base text-sm">
-          {label}
-        </Text>
+      <View className="flex-row items-center border-b pl-2 border-b-gray_200">
+        <View className="flex-row items-center py-3">
+          <Ionicons name={icon} size={24} color="#6B7280" />
+          <Text className="text-gray-600 ml-3 w-32 md:text-base text-sm">
+            {label}
+          </Text>
+        </View>
 
-        <View className="h-full w-1 mx-4 bg-white" />
+        <View className="h-full w-1 bg-gray_200 mr-4" />
 
-        <View className="flex-1">
+        <View className="flex-1 py-3">
           {typeof value === "string" ? (
             <Text className="md:text-base text-sm">{value}</Text>
           ) : (
@@ -317,43 +279,16 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
           )}
         </View>
       </View>
-
-      {label ? <View className="h-1 w-full my-4 bg-white" /> : null}
     </>
   );
 
   return (
     <>
-      <ModalContainer isVisible={isVisible} onClose={onClose}>
-        <View>
+      <ModalContainer isVisible={isVisible} onClose={onClose} isRequestDetails>
+        <View className="pb-20">
           <AgentInfo />
           <ToggleView />
           {viewMode === "text" ? <TextView /> : <TableView />}
-          <View className="mt-6 flex-row justify-between">
-            <Button
-              onPress={onClose}
-              classes="bg-primary_50 py-4 px-6 rounded-lg"
-              textClasses="font-semibold"
-              icon="arrow-left"
-              iconColor="#0078FF"
-            />
-            <Button
-              title="Call"
-              onPress={() => console.log("Call")}
-              classes="bg-green_50 py-4 px-6 rounded-lg"
-              textClasses="text-green_500 font-semibold"
-              icon="phone"
-              iconColor="#50C36E"
-            />
-            <Button
-              title="WhatsApp"
-              onPress={() => setShowQuickMessageModal(true)}
-              classes="bg-green_500 py-4 px-6 rounded-lg flex-row items-center"
-              textClasses="text-white font-semibold mr-2"
-              icon="whatsapp"
-              iconColor="#FFF"
-            />
-          </View>
         </View>
       </ModalContainer>
 
@@ -361,29 +296,16 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
         <RateBrokerModal
           isVisible={showRateModal}
           onClose={() => setShowRateModal(false)}
-          onConfirm={function (rating: number, comment: string): void {
-            throw new Error("Function not implemented.");
-          }}
-          onReportIssue={function (): void {
-            throw new Error("Function not implemented.");
-          }}
+          onConfirm={function (rating: number, comment: string): void {}}
+          onReportIssue={function (): void {}}
         />
       )}
-
-      {showQuickMessageModal ? (
-        <QuickMessageModal
-          isVisible={showQuickMessageModal}
-          onClose={() => setShowQuickMessageModal(false)}
-        />
-      ) : null}
 
       {showReportBrokerModal && (
         <ReportBrokerModal
           isVisible={showReportBrokerModal}
           onClose={() => setShowReportBrokerModal(false)}
-          onConfirm={function (issue: string, otherDetails?: string): void {
-            throw new Error("Function not implemented.");
-          }}
+          onConfirm={function (issue: string, otherDetails?: string): void {}}
         />
       )}
     </>

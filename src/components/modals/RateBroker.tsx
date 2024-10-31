@@ -40,10 +40,14 @@ export function RateBrokerModal({
           <View className="flex-row items-center" style={{ gap: 12 }}>
             <View className="flex-row justify-between">
               {[1, 2, 3, 4, 5].map((star) => (
-                <TouchableOpacity key={star} onPress={() => setRating(star)}>
+                <TouchableOpacity
+                  className="mr-1"
+                  key={star}
+                  onPress={() => setRating(star)}
+                >
                   <Ionicons
-                    name={star <= rating ? "star" : "star-outline"}
-                    size={32}
+                    name={star <= rating ? "star" : "star"}
+                    size={22}
                     color={star <= rating ? "#FFD700" : "#D3D3D3"}
                   />
                 </TouchableOpacity>

@@ -5,12 +5,14 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
-  SafeAreaView,
   Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import GenericDropdown from "@/components/shared/GenericDropdown";
 import HowItWorksModal from "@/components/modals/HowItWorks";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 export default function CreateAdPage() {
   const [adType, setAdType] = useState<"Request" | "Inventory">("Request");
@@ -38,6 +40,7 @@ export default function CreateAdPage() {
 
   const rentOrBuyOptions = ["Rent", "Buy"];
   const typeOptions = ["Apartment", "Villa", "Duplex", "Studio", "Townhouse"];
+  const statusOptions = ["Furnished", "Not Furnished", "Empty"];
 
   const RadioButton = ({ selected }: { selected: boolean }) => (
     <View
@@ -154,8 +157,8 @@ export default function CreateAdPage() {
         ) : (
           <View className="md:w-[50%] md:self-end">
             {/* Details Section */}
-            <View className="bg-white rounded-lg p-4 mb-6">
-              <Text className="font-semibold mb-4 bg-blue-50 py-6 px-2 rounded-tl-lg rounded-tr-lg">
+            <View className="bg-white rounded-lg mb-6">
+              <Text className="font-semibold mb-4 bg-primary_50 py-6 px-2 rounded-tl-lg rounded-tr-lg">
                 Details
               </Text>
 
@@ -165,6 +168,14 @@ export default function CreateAdPage() {
                 selectedValue={rentOrBuy}
                 onSelect={(value) => setRentOrBuy(value)}
                 placeholder="Select Rent or Buy"
+                icon={
+                  <MaterialIcons
+                    name="apartment"
+                    size={24}
+                    color="gray"
+                    className="mr-2"
+                  />
+                }
               />
 
               <GenericDropdown
@@ -173,6 +184,14 @@ export default function CreateAdPage() {
                 selectedValue={type}
                 onSelect={(value) => setType(value)}
                 placeholder="Select Type"
+                icon={
+                  <FontAwesome5
+                    name="building"
+                    size={20}
+                    color="gray"
+                    className="mr-2"
+                  />
+                }
               />
 
               <GenericDropdown
@@ -180,48 +199,43 @@ export default function CreateAdPage() {
                 options={typeOptions}
                 selectedValue={type}
                 onSelect={(value) => setType(value)}
-                placeholder="Select Type"
+                placeholder="Select Status"
+                icon={
+                  <MaterialCommunityIcons
+                    name="table-furniture"
+                    size={24}
+                    color="gray"
+                    className="mr-2"
+                  />
+                }
               />
 
-              {/* <View className="flex-row justify-between items-center mb-4">
-                <View className="flex-row items-center">
-                  <Ionicons
-                    name="information-circle-outline"
-                    size={20}
-                    color="gray"
-                  />
-                  <Text className="ml-2">Status</Text>
-                </View>
-                <TouchableOpacity className="flex-row items-center">
-                  <Text className="mr-2">{status}</Text>
-                  <Ionicons name="chevron-down" size={20} color="gray" />
-                </TouchableOpacity>
-              </View> */}
-
-              <View className="flex-row justify-between items-center mb-4">
+              <View className="flex-row justify-between items-center my-4">
                 <View className="flex-row items-center">
                   <Ionicons name="cash-outline" size={20} color="gray" />
                   <Text className="ml-2">Budget</Text>
                 </View>
                 <TouchableOpacity className="flex-row items-center">
-                  <Text className="mr-2 text-blue-500">{budget}</Text>
+                  <Text className="mr-6 text-blue-500">{budget}</Text>
                   <Ionicons name="pencil" size={20} color="blue" />
                 </TouchableOpacity>
               </View>
 
-              <View className="mb-4">
+              <View className="flex-row justify-between items-center my-4">
                 <View className="flex-row items-center mb-2">
                   <Ionicons name="location-outline" size={20} color="gray" />
                   <Text className="ml-2">Locations</Text>
                 </View>
-                {locations.map((location, index) => (
-                  <View
-                    key={index}
-                    className="bg-blue-100 rounded-full px-3 py-1 mb-2 self-start"
-                  >
-                    <Text className="text-blue-500">{location}</Text>
-                  </View>
-                ))}
+                <View>
+                  {locations.map((location, index) => (
+                    <View
+                      key={index}
+                      className="bg-blue-100 rounded-full px-3 py-1 mb-2 self-start"
+                    >
+                      <Text className="text-primary_500">{location}</Text>
+                    </View>
+                  ))}
+                </View>
               </View>
 
               <View className="flex-row justify-between items-center mb-4">
@@ -238,7 +252,7 @@ export default function CreateAdPage() {
                   </TouchableOpacity>
                   <Text className="mx-4">{bedrooms}</Text>
                   <TouchableOpacity onPress={() => setBedrooms(bedrooms + 1)}>
-                    <Ionicons name="add-circle" size={24} />
+                    <Ionicons name="add-circle" size={24} color="#0078FF" />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -257,7 +271,7 @@ export default function CreateAdPage() {
                   </TouchableOpacity>
                   <Text className="mx-4">{bathrooms}</Text>
                   <TouchableOpacity onPress={() => setBathrooms(bathrooms + 1)}>
-                    <Ionicons name="add-circle" size={24} />
+                    <Ionicons name="add-circle" size={24} color="#0078FF" />
                   </TouchableOpacity>
                 </View>
               </View>
