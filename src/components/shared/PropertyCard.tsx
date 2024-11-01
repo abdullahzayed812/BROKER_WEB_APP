@@ -226,7 +226,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
   };
 
   return (
-    <View className="rounded-lg border border-gray-100 p-4 w-full max-w-sm">
+    <View className="rounded-lg border border-gray-100 p-4 w-full md:max-w-sm">
       <View className="flex-row justify-between items-start">
         {renderTags()}
         {isEditable ? (

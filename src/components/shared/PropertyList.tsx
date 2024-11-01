@@ -30,11 +30,14 @@ export default function PropertyList({
   const [showRequestDetailsModal, setShowRequestDetailsModal] = useState(false);
 
   return (
-    <View className="flex-row flex-wrap justify-center" style={{ gap: 8 }}>
+    <View
+      className="flex-row flex-wrap justify-center px-3 md:px-0"
+      style={{ gap: 8 }}
+    >
       {generateList(10, propertyItem).map((property, index) => (
         <Pressable
           key={index}
-          className="w-full max-w-sm"
+          className="w-full md:max-w-sm"
           onPress={() =>
             isEditableCard
               ? router.navigate("/edit-request")

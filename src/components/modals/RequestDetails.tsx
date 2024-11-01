@@ -261,7 +261,7 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
 
   const TableRow = ({ icon, label, value }) => (
     <>
-      <View className="flex-row items-center border-b pl-2 border-b-gray_200">
+      <View className="flex-row items-center border-b pl-2 border-b-gray_100">
         <View className="flex-row items-center py-3">
           <Ionicons name={icon} size={24} color="#6B7280" />
           <Text className="text-gray-600 ml-3 w-32 md:text-base text-sm">
@@ -269,7 +269,7 @@ export const RequestDetailsModal: React.FC<RequestDetailsModalProps> = ({
           </Text>
         </View>
 
-        <View className="h-full w-1 bg-gray_200 mr-4" />
+        <View className="h-full w-[1px] bg-gray_100 mr-4" />
 
         <View className="flex-1 py-3">
           {typeof value === "string" ? (

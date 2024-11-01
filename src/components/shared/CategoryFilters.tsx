@@ -39,17 +39,22 @@ export default function CategoryFilters() {
       className=" p-4"
     >
       {categories.map((category, index) => (
-        <Pressable
-          key={index}
-          onPress={() => setActiveCategory(category.name)}
-          className={`flex-row items-center ${
-            activeCategory === category.name ? "bg-blue-50" : "bg-white"
-          } px-4 py-2 rounded-lg mr-2 border border-gray-300`}
-          style={{ gap: 8 }}
-        >
-          {category.icon ? <Text>{category.icon}</Text> : null}
-          <Text className="text-[12px] font-normal">{category.name}</Text>
-        </Pressable>
+        <>
+          <Pressable
+            key={index}
+            onPress={() => setActiveCategory(category.name)}
+            className={`flex-row items-center ${
+              activeCategory === category.name ? "bg-blue-50" : "bg-white"
+            } px-4 py-2 rounded-lg mr-2 border border-gray-300`}
+            style={{ gap: 8 }}
+          >
+            {category.icon ? <Text>{category.icon}</Text> : null}
+            <Text className="text-[12px] font-normal">{category.name}</Text>
+          </Pressable>
+          {index === 0 ? (
+            <Text className="self-center mr-2 text-gray_200">|</Text>
+          ) : null}
+        </>
       ))}
     </ScrollView>
   );

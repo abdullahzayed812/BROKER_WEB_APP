@@ -13,6 +13,7 @@ import HowItWorksModal from "@/components/modals/HowItWorks";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { CheckAuthSection } from "@/components/shared/CheckAuthSection";
 
 export default function CreateAdPage() {
   const [adType, setAdType] = useState<"Request" | "Inventory">("Request");
@@ -56,12 +57,13 @@ export default function CreateAdPage() {
     <ScrollView>
       <View className="p-4 bg-white">
         {/* Header */}
+        <CheckAuthSection description="add request" />
 
         <View className="md:w-[50%] md:self-start">
           {/* Ad Type Selection */}
-          <Text className="font-semibold text-lg text-gray-600 my-4">
+          {/* <Text className="font-semibold text-lg text-gray-600 my-4">
             Ad Type
-          </Text>
+          </Text> */}
           <View className="flex-row bg-blue-100 rounded-lg p-1 mb-6">
             <TouchableOpacity
               className={`flex-1 py-2 rounded-md ${

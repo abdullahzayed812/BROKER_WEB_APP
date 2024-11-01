@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { ModalContainer } from "../shared/ModalContainer";
 import { RadioButton } from "../shared/RadioButton";
 import { Button } from "../shared/Button";
+import { CheckAuthSection } from "../shared/CheckAuthSection";
 
 interface QuickMessageModalProps {
   isVisible: boolean;
@@ -40,6 +41,9 @@ export const QuickMessageModal: React.FC<QuickMessageModalProps> = ({
       isModalCenter={true}
     >
       <Text className="text-xl font-bold mb-4">Quick Message</Text>
+
+      <CheckAuthSection description="send a message" />
+
       {messageOptions.map((option) => (
         <RadioButton
           key={option}

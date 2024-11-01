@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { View, Modal, ScrollView } from "react-native";
+import { View, Modal, ScrollView, TouchableOpacityBase } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import { Button } from "./Button";
