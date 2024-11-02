@@ -1,5 +1,11 @@
 import React, { useRef, useState } from "react";
-import { View, Modal, ScrollView, TouchableOpacityBase } from "react-native";
+import {
+  View,
+  Modal,
+  ScrollView,
+  TouchableOpacityBase,
+  Text,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import { Button } from "./Button";
@@ -13,6 +19,7 @@ interface ModalContainerProps {
   isCloseIconVisible?: boolean;
   isModalCenter?: boolean;
   isRequestDetails?: boolean;
+  isLocationModal?: boolean;
 }
 
 export const ModalContainer: React.FC<ModalContainerProps> = ({
@@ -23,6 +30,7 @@ export const ModalContainer: React.FC<ModalContainerProps> = ({
   isCloseIconVisible = true,
   isModalCenter,
   isRequestDetails,
+  isLocationModal,
 }) => {
   const modalRef = useRef<View>(null);
   const [showQuickMessageModal, setShowQuickMessageModal] = useState(false);
@@ -84,6 +92,17 @@ export const ModalContainer: React.FC<ModalContainerProps> = ({
                 />
               ) : null}
             </>
+          ) : null}
+
+          {isLocationModal ? (
+            <TouchableOpacity
+              className="absolute bottom-0 w-full bg-blue-500 py-4 m-4 rounded-lg"
+              // onPress={handleApply}
+            >
+              <Text className="text-white text-center text-lg font-semibold">
+                Apply
+              </Text>
+            </TouchableOpacity>
           ) : null}
         </View>
       </View>
