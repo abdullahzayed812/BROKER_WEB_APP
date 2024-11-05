@@ -1,12 +1,16 @@
-import React, { useState } from "react";
-import { View, Text, Image, Pressable, Platform, Switch } from "react-native";
+import React, { useCallback, useRef, useState } from "react";
+import { View, Text, Image, Pressable, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { QuickMessageModal } from "../modals/QuickMessage";
 import { ContactStatus } from "./ContactStatus";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Swipeable from "react-native-gesture-handler/Swipeable";
+import {
+  GestureHandlerRootView,
+  Swipeable,
+} from "react-native-gesture-handler";
 import { SwitchButton } from "./SwitchButton";
+import { toggleScroll } from "@/redux/mainScrollable";
+import { useAppDispatch } from "@/redux/hooks";
 
 export interface User {
   name: string;
@@ -36,22 +40,43 @@ interface PropertyCardProps {
   property: Property;
   isEditable?: boolean;
   isContactStatus?: boolean;
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
 export const PropertyCard: React.FC<PropertyCardProps> = ({
   property,
   isEditable = false,
   isContactStatus = false,
+  onEdit,
+  onDelete,
 }) => {
+  const dispatch = useAppDispatch();
+
   const [showQuickMessageModal, setShowQuickMessageModal] = useState(false);
+  const swipeableRef = useRef<Swipeable>(null);
 
   const renderRightActions = () => (
     <View className="flex-row items-center">
-      <Pressable className="w-[80px] justify-center items-center bg-green_50 rounded-lg">
-        <Text className="text-lg font-bold text-green_500">Edit</Text>
+      <Pressable
+        className="w-[80px] h-full justify-center items-center bg-green-500 rounded-l-lg"
+        onPress={() => {
+          onEdit?.();
+          swipeableRef.current?.close();
+        }}
+      >
+        <Ionicons name="create" size={24} color="white" />
+        <Text className="text-sm font-bold text-white mt-1">Edit</Text>
       </Pressable>
-      <Pressable className="w-[80px] justify-center items-center bg-green_500 rounded-lg">
-        <Text className="text-lg font-bold text-white">Delete</Text>
+      <Pressable
+        className="w-[80px] h-full justify-center items-center bg-red-500 rounded-r-lg"
+        onPress={() => {
+          onDelete?.();
+          swipeableRef.current?.close();
+        }}
+      >
+        <Ionicons name="trash" size={24} color="white" />
+        <Text className="text-sm font-bold text-white mt-1">Delete</Text>
       </Pressable>
     </View>
   );
@@ -225,36 +250,57 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
     );
   };
 
+  const onSwipeableWillOpen = useCallback(() => {
+    console.log("Swipe opened");
+    dispatch(toggleScroll(false));
+  }, []);
+
+  const onSwipeableWillClose = useCallback(() => {
+    console.log("Swipe closed");
+    dispatch(toggleScroll(true));
+  }, []);
+
   return (
-    <View className="rounded-lg border border-gray-100 p-4 w-full md:max-w-sm">
-      <View className="flex-row justify-between items-start">
-        {renderTags()}
-        {isEditable ? (
-          <Ionicons name="share-social-outline" size={20} color="gray" />
-        ) : (
-          <View className="flex-row" style={{ gap: 8 }}>
-            <Text className="text-gray_500">1h</Text>
-            <Ionicons name="star-outline" size={20} />
-            <Ionicons name="share-social-outline" size={20} />
+    <GestureHandlerRootView>
+      <Swipeable
+        ref={swipeableRef}
+        renderRightActions={renderRightActions}
+        rightThreshold={20} // Adjusted threshold
+        friction={1} // Adjusted friction
+        onSwipeableWillOpen={onSwipeableWillOpen}
+        onSwipeableWillClose={onSwipeableWillClose}
+      >
+        <View className="rounded-lg border border-gray-100 p-4 w-full md:max-w-sm bg-white">
+          <View className="flex-row justify-between items-start">
+            {renderTags()}
+            {isEditable ? (
+              <Ionicons name="share-social-outline" size={20} color="gray" />
+            ) : (
+              <View className="flex-row" style={{ gap: 8 }}>
+                <Text className="text-gray-500">1h</Text>
+                <Ionicons name="star-outline" size={20} />
+                <Ionicons name="share-social-outline" size={20} />
+              </View>
+            )}
           </View>
-        )}
-      </View>
-      {renderUserInfo()}
-      {renderPropertyDetails()}
-      {renderMatchedProperties()}
-      {isEditable ? renderEditableButtons() : renderActionButtons()}
+          {renderUserInfo()}
+          {renderPropertyDetails()}
+          {renderMatchedProperties()}
+          {isEditable ? renderEditableButtons() : renderActionButtons()}
 
-      {isContactStatus ? (
-        <ContactStatus date={"whatsapp"} method={"whatsapp"} />
-      ) : null}
+          {isContactStatus && (
+            <ContactStatus date={"whatsapp"} method={"whatsapp"} />
+          )}
 
-      {showQuickMessageModal && (
-        <QuickMessageModal
-          isVisible={showQuickMessageModal}
-          onClose={() => setShowQuickMessageModal(false)}
-        />
-      )}
-    </View>
+          {showQuickMessageModal && (
+            <QuickMessageModal
+              isVisible={showQuickMessageModal}
+              onClose={() => setShowQuickMessageModal(false)}
+            />
+          )}
+        </View>
+      </Swipeable>
+    </GestureHandlerRootView>
   );
 };
 

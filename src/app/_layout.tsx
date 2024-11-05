@@ -6,22 +6,39 @@ import Header from "@/components/shared/Header";
 import { useState } from "react";
 import Pagination from "@/components/shared/Pagination";
 import SaveButton from "@/components/shared/SaveButton";
+import { StatusBar } from "expo-status-bar";
+import { Provider } from "react-redux";
+import store from "@/redux/store";
+import { useAppSelector } from "@/redux/hooks";
+import { getScrollEnabled } from "@/redux/mainScrollable";
 
 import "../global.css";
 
-export default function Layout() {
+export default function AppLayout() {
+  return (
+    <Provider store={store}>
+      <MainLayout />
+    </Provider>
+  );
+}
+
+export function MainLayout() {
+  const scrollEnabled = useAppSelector(getScrollEnabled);
+
   const [currentPage, setCurrentPage] = useState(1);
 
   const pathname = usePathname();
 
   return (
-    <>
+    <Provider store={store}>
       <SafeAreaView className="flex-1">
+        <StatusBar style="dark" />
         <Header />
 
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 20 }}
+          scrollEnabled={scrollEnabled}
         >
           <View className="md:w-[95%] bg-white md:self-center">
             <Slot />
@@ -40,7 +57,7 @@ export default function Layout() {
 
         <BottomTabs />
       </SafeAreaView>
-    </>
+    </Provider>
   );
 }
 
